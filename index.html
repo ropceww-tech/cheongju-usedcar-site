@@ -103,13 +103,9 @@
   .halftone .photo{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;
     mix-blend-mode:luminosity;transition:opacity 1.4s ease}
   .halftone .photo.show{opacity:.42}
-  /* 번호판이 보통 찍히는 하단 중앙대를 가려주는 블러 띠 — 정확한 좌표를 알 수 없어
-     차량이 바뀌어도 안전하게 덮이도록 넉넉한 폭으로 잡는다 */
-  /* 사진마다 번호판 위치가 제각각이라 좁은 띠로는 못 맞춘다 — 하단 40%를 통째로 블러+그라디언트로
-     덮어 어떤 사진이 와도 번호판이 가려지게 한다. 캡션 텍스트 배경도 겸한다 */
-  .halftone .plate-mask{position:absolute;left:0;right:0;bottom:0;height:42%;z-index:1;
-    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-    background:linear-gradient(to bottom,rgba(7,6,7,0) 0%,rgba(7,6,7,.4) 45%,rgba(7,6,7,.62) 100%)}
+  /* 번호판 블러는 뺐다(사진 대부분이 가려져서). 캡션 텍스트 가독성용으로 아주 옅은 그라디언트만 남김 */
+  .halftone .plate-mask{position:absolute;left:0;right:0;bottom:0;height:38%;z-index:1;
+    background:linear-gradient(to bottom,rgba(7,6,7,0) 0%,rgba(7,6,7,.4) 100%)}
   .halftone .dots{position:absolute;inset:0;z-index:2;
     background-image:radial-gradient(circle,rgba(255,255,255,.85) 1.7px,transparent 1.7px);
     background-size:11px 11px;
@@ -521,8 +517,8 @@ function renderHome(){
   const all=getList();
   const nOn=all.filter(c=>!c.sold).length, nSold=all.filter(c=>c.sold).length;
   const bopts=brandOptions();
-  const heroPool=all.filter(c=>!c.sold&&c.photos&&c.photos.length);
-  const heroPhotos=shuffle(heroPool).slice(0,6);
+  const heroPool=all.filter(c=>!c.sold&&c.origin==='수입'&&c.photos&&c.photos.length);
+  const heroPhotos=shuffle(heroPool.length?heroPool:all.filter(c=>!c.sold&&c.photos&&c.photos.length)).slice(0,6);
   document.getElementById('view').innerHTML=`
   <section class="hero">
     <div class="hero-in">
