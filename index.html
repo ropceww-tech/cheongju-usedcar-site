@@ -100,13 +100,22 @@
   .hero-cred span{background:var(--limestone);border-radius:var(--r-pill);padding:7px 15px;font-size:.8rem;font-weight:700;color:var(--obsidian)}
   .halftone{position:relative;border-radius:var(--r-card);overflow:hidden;aspect-ratio:1/1.02;
     background:linear-gradient(155deg,var(--plasma) 0%,var(--ember) 78%)}
-  .halftone .photo{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.4;mix-blend-mode:luminosity}
-  .halftone .dots{position:absolute;inset:0;
+  .halftone .photo{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;
+    mix-blend-mode:luminosity;transition:opacity 1.4s ease}
+  .halftone .photo.show{opacity:.42}
+  /* 번호판이 보통 찍히는 하단 중앙대를 가려주는 블러 띠 — 정확한 좌표를 알 수 없어
+     차량이 바뀌어도 안전하게 덮이도록 넉넉한 폭으로 잡는다 */
+  /* 사진마다 번호판 위치가 제각각이라 좁은 띠로는 못 맞춘다 — 하단 40%를 통째로 블러+그라디언트로
+     덮어 어떤 사진이 와도 번호판이 가려지게 한다. 캡션 텍스트 배경도 겸한다 */
+  .halftone .plate-mask{position:absolute;left:0;right:0;bottom:0;height:42%;z-index:1;
+    backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    background:linear-gradient(to bottom,rgba(7,6,7,0) 0%,rgba(7,6,7,.4) 45%,rgba(7,6,7,.62) 100%)}
+  .halftone .dots{position:absolute;inset:0;z-index:2;
     background-image:radial-gradient(circle,rgba(255,255,255,.85) 1.7px,transparent 1.7px);
     background-size:11px 11px;
     -webkit-mask-image:radial-gradient(ellipse 90% 90% at 78% 18%,#000 0%,rgba(0,0,0,.5) 45%,transparent 78%);
     mask-image:radial-gradient(ellipse 90% 90% at 78% 18%,#000 0%,rgba(0,0,0,.5) 45%,transparent 78%)}
-  .halftone .cap{position:absolute;left:22px;right:22px;bottom:22px;color:var(--chalk)}
+  .halftone .cap{position:absolute;left:22px;right:22px;bottom:22px;color:var(--chalk);z-index:3}
   .halftone .cap b{font-family:var(--display);font-weight:400;font-size:2.2rem;display:block;line-height:1}
   .halftone .cap span{font-size:.82rem;font-weight:700;opacity:.85}
   @media(max-width:880px){
@@ -447,11 +456,30 @@ function copyAddr(){
 }
 
 /* ---------- 라우팅 ---------- */
+let heroTimer=null;
 function router(){
+  clearInterval(heroTimer);
   const h=location.hash||'#home';
   if(h.startsWith('#detail/')){renderDetail(decodeURIComponent(h.slice('#detail/'.length)));}
   else{renderHome();}
   window.scrollTo(0,0);
+}
+function shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+/* 히어로 하프톤 블록 사진을 몇 초마다 다른 매물로 크로스페이드 전환 — 여러 매물이 있다는 인상을 준다 */
+function startHeroRotation(){
+  clearInterval(heroTimer);
+  const photos=document.querySelectorAll('.halftone .photo');
+  if(photos.length<2)return;
+  let idx=0;
+  heroTimer=setInterval(()=>{
+    photos[idx].classList.remove('show');
+    idx=(idx+1)%photos.length;
+    photos[idx].classList.add('show');
+  },3400);
 }
 function goHome(){location.hash='#home';}
 function goBackOrHome(){if(history.length>1){history.back();}else{goHome();}}
@@ -493,7 +521,8 @@ function renderHome(){
   const all=getList();
   const nOn=all.filter(c=>!c.sold).length, nSold=all.filter(c=>c.sold).length;
   const bopts=brandOptions();
-  const heroPhoto=all.find(c=>!c.sold&&c.photos&&c.photos.length);
+  const heroPool=all.filter(c=>!c.sold&&c.photos&&c.photos.length);
+  const heroPhotos=shuffle(heroPool).slice(0,6);
   document.getElementById('view').innerHTML=`
   <section class="hero">
     <div class="hero-in">
@@ -511,7 +540,8 @@ function renderHome(){
           </div>
         </div>
         <div class="halftone">
-          ${heroPhoto?`<div class="photo" style="${phStyle(heroPhoto,0)}"></div>`:''}
+          ${heroPhotos.map((c,i)=>`<div class="photo${i===0?' show':''}" style="${phStyle(c,i)}"></div>`).join('')}
+          <div class="plate-mask" aria-hidden="true"></div>
           <div class="dots"></div>
           <div class="cap"><b>${nOn}대</b><span>지금 판매중 · 성능점검 100% 제공</span></div>
         </div>
@@ -627,6 +657,7 @@ function renderHome(){
   document.getElementById('resetBtn').addEventListener('click',()=>{
     state={tab:state.tab,q:'',origin:'',brand:'',body:'',fuel:'',yearMin:'',yearMax:'',kmMax:'',sort:'new',adv:false};renderHome();});
   renderGrid();
+  startHeroRotation();
 }
 function setTab(t){state.tab=t;renderHome();}
 function renderGrid(){
