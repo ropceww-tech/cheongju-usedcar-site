@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=DM+Sans:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="청주중고차">
 <meta property="og:title" content="청주중고차 — 청주오토월드 중고차·수입차 매매 정보">
@@ -116,9 +117,12 @@
   /* ---------- Stat Feature Card ---------- */
   .stats{padding:56px 24px 0}
   .stats-in{max-width:1232px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .stat-card{background:var(--ember);color:var(--chalk);border-radius:var(--r-card);padding:36px 32px}
+  .stat-card{background:var(--ember);color:var(--chalk);border-radius:var(--r-card);padding:36px 32px;display:block}
   .stat-card b{font-family:var(--num);font-weight:700;font-size:clamp(2.6rem,5vw,3.6rem);display:block;line-height:1}
   .stat-card span{font-size:.88rem;font-weight:700;opacity:.92;display:block;margin-top:10px}
+  .stat-card.buy{transition:background .15s}
+  .stat-card.buy:hover{background:var(--ember-dim)}
+  .stat-card.buy b{font-family:var(--display);font-weight:400;font-size:1.7rem;letter-spacing:.01em}
   @media(max-width:760px){.stats-in{grid-template-columns:1fr}}
 
   /* ---------- Content Card (강점) ---------- */
@@ -496,7 +500,7 @@ function renderHome(){
       <div class="hero-grid">
         <div class="hero-copy">
           <span class="eyebrow">청주오토월드 · 성능점검 인증 매물</span>
-          <h1>청주에서<br>믿을 수 있는<br>차만 <span>파세요.</span></h1>
+          <h1>청주에서<br>믿을 수 있는<br>차만 <span>팝니다.</span></h1>
           <p>정비기능사가 직접 점검하고, 매물마다 성능점검기록부를 함께 드립니다. 사진과 광고 문구가 아니라 기록으로 증명하는 매매만 소개합니다.</p>
           <div class="hero-actions">
             <a class="btn" style="width:auto" id="heroCall" href="#">전화로 문의하기</a>
@@ -517,7 +521,7 @@ function renderHome(){
   <section class="stats">
     <div class="stats-in">
       <div class="stat-card"><b class="tnum">${nOn}</b><span>판매중 매물</span></div>
-      <div class="stat-card"><b class="tnum">${nSold}</b><span>판매완료 실적</span></div>
+      <a class="stat-card buy" id="statBuy" href="#"><b>차량 매입 문의</b><span>타고 계신 차, 좋은 가격에 삽니다 →</span></a>
       <div class="stat-card"><b class="tnum">100%</b><span>성능점검기록부 제공</span></div>
     </div>
   </section>
@@ -603,6 +607,7 @@ function renderHome(){
   </div></section>`;
 
   document.getElementById('heroCall').setAttribute('href',telHref(SHOP.tel));
+  document.getElementById('statBuy').setAttribute('href',telHref(SHOP.tel));
   const qEl=document.getElementById('q');
   qEl.addEventListener('input',e=>{state.q=e.target.value;renderGrid();});
   document.getElementById('originChips').addEventListener('click',e=>{
@@ -725,6 +730,15 @@ applyShop();
 window.addEventListener('hashchange',router);
 router();
 loadRemote().then(()=>{ router(); });
+
+/* ---------- 부드러운 스크롤 (Lenis) ----------
+   "화면을 바로 점프시키지 않고 관성으로 부드럽게 미끄러지는" 스크롤. 어지러움을 느낄 수 있는
+   사용자를 위한 prefers-reduced-motion 설정은 그대로 존중해 그 경우 켜지 않는다. */
+if(window.Lenis && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+  function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+}
 </script>
 </body>
 </html>
