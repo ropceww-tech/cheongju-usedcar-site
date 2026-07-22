@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!--
+  청주중고차(cheongju-usedcar) — SEO 전용 독립 브랜드 사이트.
+  ★ 이 사이트는 관리자 패널이 없다(딜러용 아님, 본인 단독 관리). 매물 데이터는
+    1004motors(https://1004motors.pages.dev/listings.json, 사진도 같은 도메인)를
+    그대로 읽어온다 — 딜러들이 1004motors 관리자 화면에서 매물을 고치면 이 사이트에도
+    자동으로 반영된다. 별도 저장/배포 로직 없음.
+  ★ 가게정보는 아래 SHOP 객체 한 곳만 수정.
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="청주중고차 — 청주·청원구·흥덕구·상당구·서원구, 충북 전역 중고차·수입차 매매. 정비기능사가 직접 점검하고 성능점검기록부를 제공하는 매물만 소개합니다.">
+<meta name="keywords" content="청주중고차,청주 중고차,청주중고차매매,청주 중고차 매매단지,청주오토월드,청주 수입차,충북 중고차">
+<link rel="canonical" href="https://cheongju-usedcar.pages.dev/">
+<!-- 링크 공유 미리보기 (카톡/페북 등) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="청주중고차">
+<meta property="og:title" content="청주중고차 — 청주오토월드 중고차·수입차 매매 정보">
+<meta property="og:description" content="청주 지역 중고차 매물을 한눈에. 정비기능사 직접 점검 · 성능점검기록부 제공 · 24시간 상담.">
+<meta property="og:image" content="https://1004motors.pages.dev/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://cheongju-usedcar.pages.dev/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="청주중고차 — 청주오토월드 중고차·수입차 매매 정보">
+<meta name="twitter:description" content="청주 지역 중고차 매물을 한눈에. 정비기능사 직접 점검 · 24시간 상담.">
+<meta name="twitter:image" content="https://1004motors.pages.dev/img/og.jpg">
+<title>청주중고차 — 청주오토월드 중고차·수입차 매매 정보</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutoDealer",
+  "name": "청주중고차",
+  "url": "https://cheongju-usedcar.pages.dev/",
+  "image": "https://1004motors.pages.dev/img/og.jpg",
+  "telephone": "+82-10-3042-7755",
+  "priceRange": "500만원~9000만원",
+  "areaServed": ["청주시","청원구","흥덕구","상당구","서원구","충청북도"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "2순환로 50 (청주오토월드 내)",
+    "addressLocality": "청주시 청원구",
+    "addressRegion": "충청북도",
+    "addressCountry": "KR"
+  }
+}
+</script>
+<style>
+  :root{
+    --bg:#12151a; --bg2:#0d0f13; --panel:#1c2128; --panel2:rgba(255,255,255,.04);
+    --fg:#eef1f0; --muted:#9aa1ab; --muted2:#5b6169;
+    --accent:#2dd4bf; --accent-fg:#06201c; --accent-soft:rgba(45,212,191,.13);
+    --cta:#c1401f; --cta-hi:#dd5230; --cta-soft:rgba(193,64,31,.15);
+    --danger:#e5484d; --border:#2a3038; --border-hi:#394049;
+    --shadow:0 14px 34px rgba(0,0,0,.5); --radius:14px;
+    --mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--fg);
+    font-family:-apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
+    line-height:1.55;-webkit-text-size-adjust:100%}
+  body{background-image:radial-gradient(ellipse 900px 500px at 50% -8%,rgba(45,212,191,.07),transparent 60%)}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%}
+  button,input,select{font-family:inherit;font-size:1rem}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+
+  header.top{position:sticky;top:0;z-index:50;background:rgba(18,21,26,.88);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .top-in{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    max-width:1080px;margin:0 auto;padding:12px 16px}
+  .brand{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:none;text-align:left}
+  .brand .logo{width:40px;height:40px;border-radius:11px;background:var(--panel);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+  .brand b{font-size:1.05rem;letter-spacing:-.01em}
+  .brand small{display:block;color:var(--muted);font-size:.72rem;font-weight:600;letter-spacing:.02em}
+  .top-call{background:var(--cta);color:#fff4ef;padding:10px 16px;border-radius:999px;
+    font-weight:700;font-size:.9rem;white-space:nowrap;box-shadow:0 6px 18px rgba(193,64,31,.35);min-height:40px;display:inline-flex;align-items:center}
+
+  .hero{background:linear-gradient(180deg,rgba(45,212,191,.05),transparent 70%),var(--bg2);border-bottom:1px solid var(--border)}
+  .hero-in{padding:34px 16px 24px;max-width:1080px;margin:0 auto}
+  .hero .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;color:var(--accent);
+    text-transform:uppercase;font-weight:700;display:block;margin-bottom:10px}
+  .hero h1{font-size:1.9rem;line-height:1.22;letter-spacing:-.03em;font-weight:900}
+  .hero h1 span{color:var(--accent)}
+  .hero p{color:var(--muted);margin-top:10px;font-size:.98rem;max-width:56ch}
+  .hero-stat{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 18px;margin-top:20px;
+    padding:14px 16px;background:var(--panel);border:1px solid var(--border);border-radius:12px}
+  .hero-stat .hs-item{display:flex;align-items:baseline;gap:7px}
+  .hero-stat .hs-n{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.35rem;font-weight:800;color:var(--accent)}
+  .hero-stat .hs-l{font-size:.78rem;color:var(--muted);font-weight:600}
+  .hero-stat .hs-div{width:1px;align-self:stretch;background:var(--border)}
+  .trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .trust .chip{background:var(--panel2);border:1px solid var(--border);border-radius:999px;
+    padding:6px 12px;font-size:.79rem;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent)}
+
+  .intro{padding:22px 0 6px}
+  .intro h2{font-size:1.15rem;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+  .intro p{color:var(--muted);font-size:.92rem;margin-bottom:10px}
+  .intro .areas{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .intro .areas span{background:var(--panel2);border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:.78rem;color:var(--muted);font-weight:600}
+
+  .strengths{background:var(--bg);border-bottom:1px solid var(--border)}
+  .str-in{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:20px 16px}
+  .scard{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+  .scard .sic{font-size:1.4rem;line-height:1;color:var(--accent)}
+  .scard b{display:block;margin-top:10px;font-size:.98rem;letter-spacing:-.01em}
+  .scard span{display:block;color:var(--muted);font-size:.83rem;margin-top:4px;line-height:1.5}
+  @media(max-width:640px){.str-in{grid-template-columns:1fr}}
+
+  .visit{padding:6px 0 32px}
+  .visit-addr{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+  .va-line{font-size:1.02rem}
+  .va-sub{color:var(--muted);font-size:.86rem;margin-top:4px}
+  .map-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .mapbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:13px 8px;border-radius:12px;
+    font-weight:800;font-size:.9rem;cursor:pointer;border:1px solid var(--border);background:var(--panel);color:var(--fg);
+    min-height:50px;text-align:center}
+  .mapbtn.nv{background:#03c75a;color:#fff;border-color:#03c75a}
+  .mapbtn.kk{background:#ffe812;color:#3a1d1d;border-color:#ffe812}
+  .mapbtn.tm{background:#1b3ce0;color:#fff;border-color:#1b3ce0}
+  @media(max-width:560px){.map-btns{grid-template-columns:1fr 1fr}}
+
+  .statetabs{display:flex;gap:8px;margin:20px 0 10px}
+  .statetabs button{flex:0 0 auto;border:1px solid var(--border);background:var(--panel);
+    padding:10px 18px;border-radius:999px;font-weight:800;color:var(--muted);cursor:pointer;min-height:42px}
+  .statetabs button.on{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+  .statetabs button .n{opacity:.85;font-weight:700;margin-left:3px;font-family:var(--mono)}
+
+  .filters-box{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:14px}
+  .search{position:relative;margin-bottom:10px}
+  .search input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--border);
+    border-radius:10px;background:var(--bg2);color:var(--fg)}
+  .search input::placeholder{color:var(--muted2)}
+  .search input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  .search .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+  .fgrid select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;
+    background:var(--bg2);font-weight:600;color:var(--fg);min-height:44px}
+  .fgrid select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  .origin-chips{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap}
+  .ochip{background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:8px 16px;
+    font-size:.86rem;font-weight:700;color:var(--fg);cursor:pointer;min-height:38px}
+  .ochip.on{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+  .adv-toggle{margin-top:10px;background:none;border:none;color:var(--accent);font-weight:700;
+    font-size:.86rem;cursor:pointer;padding:6px 2px;min-height:38px}
+  .adv{display:none;margin-top:8px;padding-top:10px;border-top:1px dashed var(--border)}
+  .adv.open{display:block}
+  .adv .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+  .adv .row label{font-weight:700;font-size:.82rem;min-width:64px;color:var(--muted)}
+  .adv .row input{flex:1;min-width:90px;padding:9px 11px;border:1px solid var(--border);border-radius:9px;background:var(--bg2);color:var(--fg)}
+  .filter-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+  .reset-btn{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:8px 14px;font-weight:700;font-size:.82rem;cursor:pointer;color:var(--muted);min-height:38px}
+  .count{color:var(--muted);font-size:.86rem;font-weight:600;font-family:var(--mono)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;padding-bottom:30px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;
+    text-align:left;width:100%;font:inherit;color:inherit;padding:0;display:block}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--border-hi)}
+  .card:active{transform:translateY(-1px)}
+  .ph{position:relative;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:.8rem;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.25);text-align:center;padding:8px;
+    background-size:cover;background-position:center;background-color:var(--bg2)}
+  .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.4) 100%)}
+  .ph.has-photo::after{background:linear-gradient(180deg,rgba(0,0,0,0) 68%,rgba(0,0,0,.32) 100%)}
+  .ph span{position:relative;z-index:1}
+  .badge-sold{position:absolute;top:10px;left:10px;z-index:2;background:var(--cta);color:#fff4ef;
+    font-size:.74rem;font-weight:800;padding:5px 10px;border-radius:8px;letter-spacing:.02em}
+  .badge-cat{position:absolute;top:10px;right:10px;z-index:2;background:rgba(12,14,17,.72);color:#fff;
+    font-size:.7rem;font-weight:700;padding:4px 9px;border-radius:7px;backdrop-filter:blur(3px)}
+  .stamp{position:absolute;right:8px;bottom:8px;z-index:2;width:52px;height:52px;color:var(--cta);
+    opacity:.94;transform:rotate(-9deg);filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+  .stamp circle,.stamp path{vector-effect:non-scaling-stroke}
+  .stamp text{font-family:var(--mono)}
+  .d-stamp{width:84px;height:84px;color:var(--cta);opacity:.95;transform:rotate(-7deg);
+    filter:drop-shadow(0 3px 5px rgba(0,0,0,.4));flex-shrink:0}
+  .card-body{padding:12px 14px 15px}
+  .car-name{font-weight:800;font-size:1.04rem;letter-spacing:-.01em;overflow-wrap:anywhere;word-break:break-word}
+  .car-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .car-tags .t{background:var(--accent-soft);color:var(--accent);font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:6px}
+  .car-meta{color:var(--muted);font-size:.83rem;margin-top:6px;overflow-wrap:anywhere;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .car-price{margin-top:8px;color:var(--accent);font-weight:800;font-size:1.16rem;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .car-price small{font-size:.78rem;color:var(--muted);font-weight:600;font-family:-apple-system,"Malgun Gothic",sans-serif}
+  .card.done{opacity:.65}
+
+  .detail{padding:18px 0 40px}
+  .back{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:700;
+    font-size:.92rem;margin-bottom:14px;cursor:pointer;background:none;border:none;min-height:44px;padding:6px 4px}
+  .gallery{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--bg2)}
+  .slides{display:flex;transition:transform .3s ease;touch-action:pan-y}
+  .slide{min-width:100%;aspect-ratio:16/10}
+  .gnav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+    background:rgba(18,21,26,.72);border:1px solid var(--border);display:flex;align-items:center;
+    justify-content:center;cursor:pointer;font-size:1.3rem;color:#fff;backdrop-filter:blur(4px);z-index:3}
+  .gnav:hover{background:rgba(18,21,26,.9)}
+  .gnav:active{transform:translateY(-50%) scale(.94)}
+  .gnav.prev{left:10px}.gnav.next{right:10px}
+  .dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:3}
+  .dots button{width:24px;height:24px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+  .dots button::before{content:"";width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);transition:.2s}
+  .dots button.on::before{background:var(--accent);width:20px;border-radius:5px}
+  .d-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin:18px 0 4px}
+  .d-title{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;overflow-wrap:anywhere;word-break:break-word}
+  .d-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .d-tags .t{background:var(--accent-soft);color:var(--accent);font-size:.78rem;font-weight:700;padding:4px 10px;border-radius:7px}
+  .d-price{color:var(--accent);font-weight:800;font-size:1.6rem;margin-bottom:16px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .spec{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+  .spec .item{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:11px 13px}
+  .spec .item small{display:block;color:var(--muted);font-size:.76rem;margin-bottom:3px}
+  .spec .item b{font-size:1rem;font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:700}
+  .desc{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:15px;
+    color:var(--fg);white-space:pre-line;margin-bottom:20px;overflow-wrap:anywhere}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--cta);
+    color:#fff4ef;border:none;border-radius:12px;padding:14px 20px;font-weight:800;cursor:pointer;
+    width:100%;font-size:1rem;box-shadow:0 8px 20px rgba(193,64,31,.28);transition:filter .15s;min-height:48px}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.sec{background:transparent;color:var(--accent);border:1.5px solid var(--accent);box-shadow:none}
+  .btn.ghost{background:var(--panel2);color:var(--fg);border:1px solid var(--border);box-shadow:none}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+  .empty{text-align:center;color:var(--muted);padding:40px 16px;background:var(--panel);
+    border:1px dashed var(--border);border-radius:14px}
+
+  .float-call{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(13,15,19,.9);backdrop-filter:blur(10px);border-top:1px solid var(--border)}
+  .float-call a{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--cta);
+    color:#fff4ef;font-weight:800;padding:14px;border-radius:14px;font-size:1.02rem;box-shadow:0 8px 20px rgba(193,64,31,.3);max-width:1080px;margin:0 auto}
+  main{padding-bottom:96px;min-height:60vh}
+
+  footer{border-top:1px solid var(--border);background:var(--bg2);color:var(--muted);
+    font-size:.84rem;padding:22px 16px calc(96px + env(safe-area-inset-bottom))}
+  footer .wrap{max-width:1080px}
+  footer b{color:var(--fg)}
+  footer .note{margin-top:8px}
+  footer .rel{margin-top:10px;font-size:.8rem}
+
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);
+    background:var(--panel);color:var(--fg);border:1px solid var(--border-hi);padding:13px 20px;border-radius:12px;font-weight:700;font-size:.92rem;
+    box-shadow:0 8px 24px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:.25s;z-index:200;max-width:90vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:480px){
+    .hero h1{font-size:1.5rem}
+    .spec{grid-template-columns:1fr}
+    .d-title{font-size:1.25rem}
+    .hero-stat{gap:4px 14px}
+  }
+  @media print{
+    header.top,.float-call,.filters-box,.statetabs,.back,.btn-row,.toast{display:none !important}
+    body{padding:0;background:#fff;color:#000}main{padding:0}.gallery{border:1px solid #999}.gnav,.dots,.stamp,.d-stamp{display:none !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <button class="brand" type="button" onclick="location.hash='#home'" aria-label="홈으로">
+      <div class="logo" aria-hidden="true">🚗</div>
+      <div>
+        <b id="brandName">청주중고차</b>
+        <small>청주오토월드 매매정보</small>
+      </div>
+    </button>
+    <a class="top-call" id="topCall" href="#"><span aria-hidden="true">📞</span> 전화 문의</a>
+  </div>
+</header>
+
+<main id="view"></main>
+
+<div class="float-call">
+  <a id="floatCall" href="#"><span aria-hidden="true">📞</span> 바로 전화문의</a>
+</div>
+
+<footer>
+  <div class="wrap">
+    <b id="footName">청주중고차</b> · 청주·충북 중고차·수입차 매매 정보<br>
+    <span aria-hidden="true">📍</span> <span id="footAddr">청주시 청원구 2순환로 50 (청주오토월드 내)</span><br>
+    <span aria-hidden="true">☎</span> <span id="footTel">010-3042-7755</span><br>
+    <span aria-hidden="true">🕒</span> <span id="footHours">24시간 상담 가능 (연중무휴)</span>
+    <div class="note">
+      ※ 표기 정보는 실제 차량 상태를 기준으로 하며, 매물별 성능점검기록부를 함께 제공합니다.
+    </div>
+    <div class="rel">전시장 실차 확인 · 매물 상세문의: <a href="https://1004motors.pages.dev" style="color:var(--accent);font-weight:700">1004motors.pages.dev</a></div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   ★ 가게정보
+   ============================================================ */
+const SHOP = {
+  name: '청주중고차',
+  tel : '010-3042-7755',
+  addr: '청주시 청원구 2순환로 50 (청주오토월드 내)',
+  hours: '24시간 상담 가능 (연중무휴)'
+};
+/* 매물 데이터 원본 — 1004motors가 관리하는 listings.json을 그대로 읽는다(공유 데이터, 별도 저장 없음) */
+const DATA_BASE = 'https://1004motors.pages.dev/';
+
+const BRANDS = {
+  '국산': ['현대','기아','제네시스','쉐보레','르노코리아','KG모빌리티(쌍용)','기타'],
+  '수입': ['벤츠','BMW','아우디','폭스바겐','렉서스','토요타','혼다','포드','볼보','미니','지프','테슬라','포르쉐','기타']
+};
+const BODY_TYPES = ['경차','소형','준중형','중형','준대형','대형','SUV','RV/승합','스포츠','기타'];
+
+const BRAND_KEYS = [
+  ['제네시스','국산','제네시스'],['G70','국산','제네시스'],['G80','국산','제네시스'],['G90','국산','제네시스'],['GV70','국산','제네시스'],['GV80','국산','제네시스'],['GV60','국산','제네시스'],['EQ900','국산','제네시스'],
+  ['현대','국산','현대'],['기아','국산','기아'],
+  ['쉐보레','국산','쉐보레'],['GM대우','국산','쉐보레'],['대우','국산','쉐보레'],
+  ['르노','국산','르노코리아'],['삼성','국산','르노코리아'],['SM3','국산','르노코리아'],['SM5','국산','르노코리아'],['SM6','국산','르노코리아'],['SM7','국산','르노코리아'],['QM','국산','르노코리아'],['XM3','국산','르노코리아'],
+  ['쌍용','국산','KG모빌리티(쌍용)'],['KG모빌리티','국산','KG모빌리티(쌍용)'],['티볼리','국산','KG모빌리티(쌍용)'],['렉스턴','국산','KG모빌리티(쌍용)'],['코란도','국산','KG모빌리티(쌍용)'],['토레스','국산','KG모빌리티(쌍용)'],['액티언','국산','KG모빌리티(쌍용)'],
+  ['벤츠','수입','벤츠'],['메르세데스','수입','벤츠'],['BMW','수입','BMW'],['아우디','수입','아우디'],['폭스바겐','수입','폭스바겐'],['폭바','수입','폭스바겐'],
+  ['렉서스','수입','렉서스'],['토요타','수입','토요타'],['도요타','수입','토요타'],['혼다','수입','혼다'],['포드','수입','포드'],['볼보','수입','볼보'],['미니','수입','미니'],['MINI','수입','미니'],['지프','수입','지프'],['테슬라','수입','테슬라'],['포르쉐','수입','포르쉐']
+];
+const BODY_KEYS = [
+  ['경차',['모닝','스파크','레이','캐스퍼','마티즈']],
+  ['RV/승합',['카니발','스타리아','스타렉스','카렌스']],
+  ['SUV',['팰리세이드','싼타페','쏘렌토','투싼','스포티지','코나','셀토스','니로','쏘울','베뉴','트레일블레이저','트랙스','트래버스','이쿼녹스','티볼리','코란도','렉스턴','토레스','액티언','QM6','XM3','캡처','GV70','GV80','GV60','EV9','팰리']],
+  ['대형',['그랜저','K9','제네시스','G80','G90','EQ900','스팅어','임팔라','알페온']],
+  ['준대형',['K7','K8','SM7','G70']],
+  ['중형',['쏘나타','K5','말리부','SM6','로체']],
+  ['준중형',['아반떼','K3','크루즈','SM3','라세티']],
+  ['소형',['프라이드','엑센트','리오','아베오','베르나']],
+  ['스포츠',['벨로스터','제네시스쿠페','스팅어']]
+];
+function inferBrand(name){
+  const s=String(name||'');
+  for(const [kw,origin,brand] of BRAND_KEYS){ if(s.indexOf(kw)>=0) return {origin,brand}; }
+  return {origin:'국산',brand:'기타'};
+}
+function inferBody(name){
+  const s=String(name||'');
+  for(const [body,kws] of BODY_KEYS){ for(const kw of kws){ if(s.indexOf(kw)>=0) return body; } }
+  return '기타';
+}
+const YEAR_MIN = 1980;
+
+/* ---------- listings.json (1004motors 공유 데이터) ---------- */
+let REMOTE = [];
+async function loadRemote(){
+  try{
+    const res = await fetch(DATA_BASE+'listings.json?v='+Date.now(), {cache:'no-store'});
+    if(res.ok){
+      const data = await res.json();
+      const arr = Array.isArray(data) ? data : (Array.isArray(data.listings) ? data.listings : null);
+      if(Array.isArray(arr)) REMOTE = normalizeList(arr);
+    }
+  }catch(e){ /* 네트워크 실패 시 빈 목록 */ }
+}
+function getList(){ return REMOTE; }
+
+/* ---------- 유틸 ---------- */
+const won=n=>Number.isFinite(+n)?Number(n).toLocaleString('ko-KR'):'0';
+const kmf=n=>Number.isFinite(+n)?Number(n).toLocaleString('ko-KR'):'0';
+function priceLabel(p){return (Number.isFinite(+p)&&+p>0)?`${won(p)}<small> 만원</small>`:'<small>가격문의</small>';}
+function priceLabelPlain(p){return (Number.isFinite(+p)&&+p>0)?`${won(p)} 만원`:'가격문의';}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function telHref(t){return 'tel:'+String(t).replace(/[^\d+]/g,'');}
+function dealerName(d){return d?String(d).replace(/0\d{1,2}[-.\s]?\d{3,4}[-.\s]?\d{4}/g,'').replace(/\s+/g,' ').trim():'';}
+/* 매물 사진 경로는 1004motors 저장소 기준 상대경로(img/band/...)라 여기서는 그 도메인으로 절대경로화 */
+function photoUrl(p){
+  if(!p) return '';
+  return /^https?:\/\//.test(p) ? p : DATA_BASE+p;
+}
+let toastT;
+function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400);}
+function phGrad(hue,seedN){const h=((+hue||210)+seedN*18)%360;return `background:linear-gradient(135deg,hsl(${h},45%,58%),hsl(${(h+30)%360},55%,40%))`;}
+function phStyle(c,seedN){if(c.photos&&c.photos.length){return `background-image:url('${photoUrl(c.photos[0]).replace(/'/g,"%27")}')`;}return phGrad(c.hue,seedN);}
+function stampSVG(id,cls){
+  const arcId='stampArc_'+String(id).replace(/[^a-zA-Z0-9_]/g,'');
+  return `<svg class="${cls}" viewBox="0 0 100 100" aria-hidden="true">
+    <defs><path id="${arcId}" d="M 14 56 A 36 36 0 1 1 86 56" fill="none"/></defs>
+    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2.2"/>
+    <circle cx="50" cy="50" r="38.5" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text font-size="10.5" font-weight="700" letter-spacing="1.5">
+      <textPath href="#${arcId}" startOffset="50%" text-anchor="middle" fill="currentColor">성능점검 완료</textPath>
+    </text>
+    <text x="50" y="52" font-size="13.5" font-weight="800" fill="currentColor" text-anchor="middle" letter-spacing=".5">CHECKED</text>
+    <text x="50" y="65" font-size="6.2" font-weight="700" fill="currentColor" text-anchor="middle" letter-spacing="1.5">청주중고차</text>
+  </svg>`;
+}
+function normalizeList(arr){
+  return (arr||[]).map(c=>{
+    const name=String(c.name||'이름없음');
+    let origin=c.origin, brand=c.brand, bd=c.body;
+    if(!origin||!brand){const inf=inferBrand(name);origin=origin||inf.origin;brand=brand||inf.brand;}
+    if(!bd)bd=inferBody(name);
+    return {
+      id:c.id||name, name,
+      origin:origin||'국산', brand:brand||'기타', body:bd||'기타',
+      year:Number.isFinite(+c.year)?+c.year:YEAR_MIN,
+      km:Number.isFinite(+c.km)?Math.max(0,+c.km):0,
+      color:String(c.color||''), price:Number.isFinite(+c.price)?+c.price:0,
+      fuel:String(c.fuel||''), trans:String(c.trans||''), dealer:String(c.dealer||''),
+      sold:!!c.sold, hue:Number.isFinite(+c.hue)?+c.hue:210,
+      photos:Array.isArray(c.photos)?c.photos:[],
+      createdAt:Number.isFinite(+c.createdAt)?+c.createdAt:0,
+      desc:String(c.desc||''),
+      options:String(c.options||'')
+    };
+  });
+}
+
+/* ---------- 가게정보 주입 ---------- */
+function applyShop(){
+  document.getElementById('brandName').textContent=SHOP.name;
+  document.getElementById('footName').textContent=SHOP.name;
+  document.getElementById('footAddr').textContent=SHOP.addr;
+  document.getElementById('footTel').textContent=SHOP.tel;
+  document.getElementById('footHours').textContent=SHOP.hours;
+  const href=telHref(SHOP.tel);
+  document.getElementById('topCall').setAttribute('href',href);
+  document.getElementById('floatCall').setAttribute('href',href);
+}
+function copyAddr(){
+  const a=SHOP.addr;
+  if(navigator.clipboard){navigator.clipboard.writeText(a).then(()=>toast('주소를 복사했습니다.')).catch(()=>toast(a));}
+  else{ toast(a); }
+}
+
+/* ---------- 라우팅 ---------- */
+function router(){
+  const h=location.hash||'#home';
+  if(h.startsWith('#detail/')){renderDetail(decodeURIComponent(h.slice('#detail/'.length)));}
+  else{renderHome();}
+  window.scrollTo(0,0);
+}
+function goHome(){location.hash='#home';}
+function goBackOrHome(){if(history.length>1){history.back();}else{goHome();}}
+
+/* ---------- 홈 / 목록 ---------- */
+let state={tab:'onsale',q:'',origin:'',brand:'',body:'',fuel:'',yearMin:'',yearMax:'',kmMax:'',sort:'new',adv:false};
+function brandOptions(){
+  if(state.origin==='국산') return BRANDS['국산'];
+  if(state.origin==='수입') return BRANDS['수입'];
+  return [...BRANDS['국산'],...BRANDS['수입'].filter(b=>b!=='기타')];
+}
+function filterSort(forSold){
+  const q=state.q.trim().toLowerCase();
+  let items=getList().filter(c=>{
+    if(forSold ? !c.sold : c.sold) return false;
+    if(state.origin && c.origin!==state.origin) return false;
+    if(state.brand && c.brand!==state.brand) return false;
+    if(state.body && c.body!==state.body) return false;
+    if(state.fuel && !(c.fuel||'').includes(state.fuel)) return false;
+    if(state.yearMin && (c.year||0)<+state.yearMin) return false;
+    if(state.yearMax && (c.year||0)>+state.yearMax) return false;
+    if(state.kmMax && (c.km||0)>+state.kmMax*10000) return false;
+    if(!q) return true;
+    const s=(c.name+' '+c.brand+' '+c.body+' '+c.color+' '+c.fuel+' '+c.year+' '+c.price+' '+c.km+' '+(c.trans||'')+' '+(c.desc||'')+' '+(c.options||'')).toLowerCase();
+    return s.includes(q);
+  });
+  items.sort((a,b)=>{
+    switch(state.sort){
+      case 'price_a':return (a.price||0)-(b.price||0);
+      case 'price_d':return (b.price||0)-(a.price||0);
+      case 'year_d':return (b.year||0)-(a.year||0);
+      case 'km_a':return (a.km||0)-(b.km||0);
+      default:return (b.createdAt||0)-(a.createdAt||0);
+    }
+  });
+  return items;
+}
+function renderHome(){
+  const all=getList();
+  const nOn=all.filter(c=>!c.sold).length, nSold=all.filter(c=>c.sold).length;
+  const bopts=brandOptions();
+  document.getElementById('view').innerHTML=`
+  <section class="hero">
+    <div class="hero-in">
+      <span class="eyebrow">청주오토월드 매매정보 · 성능점검 완비 매물</span>
+      <h1>청주중고차, 정비기능사가<br>먼저 <span>확인한 매물만</span> 모았습니다</h1>
+      <p>청주시 청원구·흥덕구·상당구·서원구를 포함한 충북 전역에서 찾는 중고차·수입차 정보를 한 페이지에 정리했습니다. 매물마다 성능점검기록부를 함께 확인할 수 있습니다.</p>
+      <div class="hero-stat">
+        <div class="hs-item"><span class="hs-n">${nOn}</span><span class="hs-l">판매중</span></div>
+        <div class="hs-div" aria-hidden="true"></div>
+        <div class="hs-item"><span class="hs-n">${nSold}</span><span class="hs-l">판매완료</span></div>
+        <div class="hs-div" aria-hidden="true"></div>
+        <div class="hs-item"><span class="hs-n">100%</span><span class="hs-l">성능점검부 제공</span></div>
+      </div>
+      <div class="trust">
+        <span class="chip"><span class="dot" aria-hidden="true"></span>청주오토월드 매매단지 내</span>
+        <span class="chip"><span class="dot" aria-hidden="true"></span>수입·국산 다양한 매물</span>
+      </div>
+    </div>
+  </section>
+  <section class="strengths">
+    <div class="wrap str-in">
+      <div class="scard"><div class="sic" aria-hidden="true">🔧</div><b>정비기능사 직접 점검</b><span>등록 전 차량 상태를 직접 확인한 매물만 올립니다</span></div>
+      <div class="scard"><div class="sic" aria-hidden="true">📋</div><b>성능점검기록부 제공</b><span>매물마다 점검 결과를 문서로 함께 안내합니다</span></div>
+      <div class="scard"><div class="sic" aria-hidden="true">📍</div><b>청주오토월드 실차 확인</b><span>청주시 청원구 매매단지에서 직접 보실 수 있습니다</span></div>
+    </div>
+  </section>
+  <div class="wrap intro">
+    <h2>청주중고차 매매, 이렇게 고르세요</h2>
+    <p>중고차는 사진과 광고 문구만으로는 상태를 알기 어렵습니다. 이 페이지는 청주오토월드 매매단지에서 실제로 관리 중인 매물 정보를 정리해 보여드리며, 연식·주행거리·연료·가격을 기준으로 바로 비교할 수 있습니다. 궁금한 매물은 전화로 문의하시면 실차 확인 일정을 안내해 드립니다.</p>
+    <div class="areas">
+      <span>청주시 청원구</span><span>흥덕구</span><span>상당구</span><span>서원구</span><span>오창</span><span>오송</span><span>청주오토월드</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="statetabs" role="tablist">
+      <button role="tab" class="${state.tab==='onsale'?'on':''}" onclick="setTab('onsale')">판매중<span class="n">${nOn}</span></button>
+      <button role="tab" class="${state.tab==='sold'?'on':''}" onclick="setTab('sold')">판매완료<span class="n">${nSold}</span></button>
+    </div>
+    <div class="filters-box">
+      <div class="search">
+        <span class="ic" aria-hidden="true">🔎</span>
+        <input id="q" type="search" aria-label="매물 검색" placeholder="차종·모델·색상·옵션 검색" value="${esc(state.q)}">
+      </div>
+      <div class="origin-chips" id="originChips">
+        ${['','국산','수입'].map(o=>`<button type="button" class="ochip${state.origin===o?' on':''}" data-origin="${esc(o)}">${o?esc(o)+'차':'전체'}</button>`).join('')}
+      </div>
+      <div class="fgrid">
+        <select id="brandSel" aria-label="제조사">
+          <option value="">전체 제조사</option>
+          ${bopts.map(b=>`<option value="${esc(b)}"${state.brand===b?' selected':''}>${esc(b)}</option>`).join('')}
+        </select>
+        <select id="bodySel" aria-label="차종">
+          <option value="">전체 차종</option>
+          ${BODY_TYPES.map(b=>`<option value="${esc(b)}"${state.body===b?' selected':''}>${esc(b)}</option>`).join('')}
+        </select>
+        <select id="fuelSel" aria-label="연료">
+          <option value="">전체 연료</option>
+          ${['가솔린','디젤','LPG','하이브리드','전기'].map(f=>`<option value="${esc(f)}"${state.fuel===f?' selected':''}>${esc(f)}</option>`).join('')}
+        </select>
+        <select id="sortSel" aria-label="정렬">
+          <option value="new"${state.sort==='new'?' selected':''}>최신 등록순</option>
+          <option value="price_a"${state.sort==='price_a'?' selected':''}>가격 낮은순</option>
+          <option value="price_d"${state.sort==='price_d'?' selected':''}>가격 높은순</option>
+          <option value="year_d"${state.sort==='year_d'?' selected':''}>연식 최신순</option>
+          <option value="km_a"${state.sort==='km_a'?' selected':''}>주행거리 적은순</option>
+        </select>
+      </div>
+      <button type="button" class="adv-toggle" id="advToggle">${state.adv?'▲ 상세필터 접기':'▼ 상세필터 (연식·주행거리)'}</button>
+      <div class="adv${state.adv?' open':''}" id="advBox">
+        <div class="row"><label>연식</label>
+          <input id="yMin" type="number" inputmode="numeric" placeholder="예: 2018" value="${esc(state.yearMin)}"> ~
+          <input id="yMax" type="number" inputmode="numeric" placeholder="예: 2024" value="${esc(state.yearMax)}"></div>
+        <div class="row"><label>주행거리</label>
+          <input id="kMax" type="number" inputmode="numeric" placeholder="이하 (만km) 예: 8" value="${esc(state.kmMax)}"> 만km 이하</div>
+      </div>
+      <div class="filter-actions">
+        <span class="count" id="count"></span>
+        <button type="button" class="reset-btn" id="resetBtn">필터 초기화</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+  <section class="visit"><div class="wrap">
+    <h2 class="sc-title" style="font-size:1.2rem;font-weight:800;letter-spacing:-.02em">찾아오시는 길</h2>
+    <div class="visit-addr">
+      <div class="va-line">📍 <b>청주시 청원구 2순환로 50</b></div>
+      <div class="va-sub">청주오토월드 중고차 매매단지 내</div>
+      <div class="va-sub">상리사거리에서 성모병원 방향 · 24시간 상담 (연중무휴)</div>
+    </div>
+    <div class="map-btns">
+      <a class="mapbtn nv" href="https://map.naver.com/p/search/2%EC%88%9C%ED%99%98%EB%A1%9C%2050/address/3zDVce,2AafmC,%EC%B6%A9%EC%B2%AD%EB%B6%81%EB%8F%84%20%EC%B2%AD%EC%A3%BC%EC%8B%9C%20%EC%B2%AD%EC%9B%90%EA%B5%AC%202%EC%88%9C%ED%99%98%EB%A1%9C%2050?c=15.00,0,0,0,dh" target="_blank" rel="noopener">네이버 지도</a>
+      <a class="mapbtn kk" href="https://map.kakao.com/?q=충청북도%20청주시%20청원구%202순환로%2050" target="_blank" rel="noopener">카카오맵</a>
+      <a class="mapbtn tm" href="tmap://search?name=충청북도%20청주시%20청원구%202순환로%2050">티맵</a>
+      <button class="mapbtn cp" type="button" onclick="copyAddr()">주소 복사</button>
+    </div>
+  </div></section>`;
+
+  const qEl=document.getElementById('q');
+  qEl.addEventListener('input',e=>{state.q=e.target.value;renderGrid();});
+  document.getElementById('originChips').addEventListener('click',e=>{
+    const b=e.target.closest('.ochip'); if(!b)return;
+    state.origin=b.dataset.origin; state.brand='';
+    renderHome();
+  });
+  document.getElementById('brandSel').addEventListener('change',e=>{state.brand=e.target.value;renderGrid();});
+  document.getElementById('bodySel').addEventListener('change',e=>{state.body=e.target.value;renderGrid();});
+  document.getElementById('fuelSel').addEventListener('change',e=>{state.fuel=e.target.value;renderGrid();});
+  document.getElementById('sortSel').addEventListener('change',e=>{state.sort=e.target.value;renderGrid();});
+  document.getElementById('advToggle').addEventListener('click',()=>{state.adv=!state.adv;
+    document.getElementById('advBox').classList.toggle('open',state.adv);
+    document.getElementById('advToggle').textContent=state.adv?'▲ 상세필터 접기':'▼ 상세필터 (연식·주행거리)';});
+  const bindNum=(id,key)=>{const el=document.getElementById(id);if(el)el.addEventListener('input',e=>{state[key]=e.target.value;renderGrid();});};
+  bindNum('yMin','yearMin');bindNum('yMax','yearMax');bindNum('kMax','kmMax');
+  document.getElementById('resetBtn').addEventListener('click',()=>{
+    state={tab:state.tab,q:'',origin:'',brand:'',body:'',fuel:'',yearMin:'',yearMax:'',kmMax:'',sort:'new',adv:false};renderHome();});
+  renderGrid();
+}
+function setTab(t){state.tab=t;renderHome();}
+function renderGrid(){
+  const items=filterSort(state.tab==='sold');
+  const grid=document.getElementById('grid');
+  const count=document.getElementById('count');
+  if(!grid)return;
+  count.textContent=`총 ${items.length}대`;
+  grid.innerHTML = items.length ? items.map((c,i)=>`
+    <button class="card${c.sold?' done':''}" type="button" onclick="location.hash='#detail/${encodeURIComponent(c.id)}'" aria-label="${esc(c.name)} 상세보기">
+      <div class="ph${c.photos&&c.photos.length?' has-photo':''}" style="${phStyle(c,i)}">
+        ${c.sold?'<span class="badge-sold">판매완료</span>':stampSVG(c.id,'stamp')}
+        ${c.body&&c.body!=='기타'?`<span class="badge-cat">${esc(c.body)}</span>`:''}
+        ${c.photos&&c.photos.length?'':'<span>사진 준비중</span>'}
+      </div>
+      <div class="card-body">
+        <div class="car-name">${esc(c.name)}</div>
+        <div class="car-tags">
+          ${c.brand&&c.brand!=='기타'?`<span class="t">${esc(c.brand)}</span>`:''}
+          ${c.origin?`<span class="t">${esc(c.origin)}</span>`:''}
+        </div>
+        <div class="car-meta">${esc(c.year)}년식 · ${kmf(c.km)}km${c.fuel?' · '+esc(c.fuel):''}${c.color?' · '+esc(c.color):''}</div>
+        <div class="car-price">${priceLabel(c.price)}</div>
+      </div>
+    </button>`).join('')
+    : `<div class="empty" style="grid-column:1/-1">${state.tab==='sold'?'판매완료된 매물이 없습니다.':'조건에 맞는 매물이 없습니다.'}</div>`;
+}
+
+/* ---------- 상세 ---------- */
+let gIndex=0,gCount=0;
+function renderDetail(id){
+  const c=getList().find(x=>x.id===id);
+  if(!c){toast('해당 매물을 찾을 수 없습니다.');goHome();return;}
+  gIndex=0;
+  const photos=(c.photos&&c.photos.length)?c.photos:[null,null,null];
+  gCount=photos.length;
+  let slides='';
+  photos.forEach((p,i)=>{const st=p?`background-image:url('${photoUrl(p).replace(/'/g,"%27")}')`:phGrad(c.hue,i);
+    slides+=`<div class="slide ph${p?' has-photo':''}" style="${st}">${p?'':`<span>사진 준비중 ${i+1}</span>`}</div>`;});
+  let dots='';for(let i=0;i<gCount;i++)dots+=`<button type="button" class="${i===0?'on':''}" data-d="${i}" aria-label="${i+1}번째 사진"></button>`;
+  document.title=`${c.name} — 청주중고차`;
+  document.getElementById('view').innerHTML=`
+  <div class="wrap detail">
+    <button class="back" type="button" onclick="goBackOrHome()">← 목록으로</button>
+    <div class="gallery" id="gallery" tabindex="0" role="region" aria-label="차량 사진 갤러리">
+      <div class="slides" id="slides">${slides}</div>
+      ${gCount>1?`<button type="button" class="gnav prev" aria-label="이전 사진" onclick="slide(-1)">‹</button>
+      <button type="button" class="gnav next" aria-label="다음 사진" onclick="slide(1)">›</button>
+      <div class="dots" id="dots">${dots}</div>`:''}
+    </div>
+    <div class="d-head">
+      <div class="d-title">${esc(c.name)} ${c.sold?'<span class="badge-sold" style="position:static;display:inline-block">판매완료</span>':''}</div>
+      ${c.sold?'':stampSVG(c.id+'_d','d-stamp')}
+    </div>
+    <div class="d-tags">
+      ${c.origin?`<span class="t">${esc(c.origin)}차</span>`:''}
+      ${c.brand&&c.brand!=='기타'?`<span class="t">${esc(c.brand)}</span>`:''}
+      ${c.body&&c.body!=='기타'?`<span class="t">${esc(c.body)}</span>`:''}
+    </div>
+    <div class="d-price">${priceLabelPlain(c.price)}</div>
+    <div class="spec">
+      <div class="item"><small>연식</small><b>${esc(c.year)}년식</b></div>
+      <div class="item"><small>주행거리</small><b>${kmf(c.km)} km</b></div>
+      <div class="item"><small>연료</small><b>${esc(c.fuel||'문의')}</b></div>
+      <div class="item"><small>변속기</small><b>${esc(c.trans||'-')}</b></div>
+      ${c.color?`<div class="item"><small>색상</small><b>${esc(c.color)}</b></div>`:''}
+      <div class="item"><small>차종</small><b>${esc(c.body||'-')}</b></div>
+    </div>
+    ${c.options?`<div class="desc" style="margin-bottom:10px"><b>옵션</b><br>${esc(c.options)}</div>`:''}
+    <div class="desc">${esc(c.desc||'설명이 없습니다.')}</div>
+    <div class="btn-row">
+      <a class="btn" style="flex:1;text-decoration:none" href="${telHref(SHOP.tel)}"><span aria-hidden="true">📞</span> ${c.sold?'비슷한 매물 전화 문의':'전화로 문의하기'}</a>
+      <button class="btn ghost" style="flex:1" onclick="shareCar('${encodeURIComponent(c.id)}')">링크 복사·공유</button>
+    </div>
+  </div>`;
+  setupGallery();
+}
+function slide(dir){if(gCount<=1)return;gIndex=(gIndex+dir+gCount)%gCount;const el=document.getElementById('slides');if(el)el.style.transform=`translateX(-${gIndex*100}%)`;document.querySelectorAll('#dots button').forEach(b=>b.classList.toggle('on',+b.dataset.d===gIndex));}
+function goSlide(i){gIndex=i;const el=document.getElementById('slides');if(el)el.style.transform=`translateX(-${gIndex*100}%)`;document.querySelectorAll('#dots button').forEach(b=>b.classList.toggle('on',+b.dataset.d===gIndex));}
+function setupGallery(){
+  const el=document.getElementById('slides');if(!el)return;let x0=null;
+  el.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;},{passive:true});
+  el.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)slide(dx<0?1:-1);x0=null;});
+  document.querySelectorAll('#dots button').forEach(b=>b.addEventListener('click',()=>goSlide(+b.dataset.d)));
+  const g=document.getElementById('gallery');
+  if(g)g.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){slide(-1);e.preventDefault();}else if(e.key==='ArrowRight'){slide(1);e.preventDefault();}});
+}
+async function shareCar(encId){
+  const url=location.origin+location.pathname+'#detail/'+encId;
+  try{
+    if(navigator.share){await navigator.share({title:SHOP.name,url});return;}
+    if(navigator.clipboard){await navigator.clipboard.writeText(url);toast('링크를 복사했습니다.');return;}
+  }catch(e){}
+  toast('복사를 지원하지 않는 환경입니다.');
+}
+
+/* ---------- 시작 ---------- */
+applyShop();
+window.addEventListener('hashchange',router);
+router();
+loadRemote().then(()=>{ router(); });
+</script>
+</body>
+</html>
