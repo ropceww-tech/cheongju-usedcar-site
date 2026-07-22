@@ -7,9 +7,10 @@
     그대로 읽어온다 — 딜러들이 1004motors 관리자 화면에서 매물을 고치면 이 사이트에도
     자동으로 반영된다. 별도 저장/배포 로직 없음.
   ★ 가게정보는 아래 SHOP 객체 한 곳만 수정.
-  ★ 디자인: "관인(官印)" 컨셉 — 짙은 남색을 서류를 올려둔 책상/장부 표지로,
-    미색 종이 패널을 실제 서류(성능점검기록부)로, 빨간 인주색 도장을 유일한 강조색으로 쓴다.
-    한국 중고차 매매의 진짜 신뢰 근거인 "성능점검기록부·도장"이라는 소재에서 그대로 끌어온 팔레트.
+  ★ 디자인: Refero Styles "Caldera" 레퍼런스(styles.refero.design/style/fe8cdcf9...)를 그대로 적용.
+    화산 팔레트(Ember 오렌지/Plasma 바이올렛/Sulfur 옐로), 무그림자 평면 레이어링(Pumice→Limestone→Ember),
+    40px 카드radius·800px 필 컨트롤, 하프톤 도트 히어로가 이 시스템의 정체성.
+    한글 헤드라인이 필요해 PP Neue Corp Compact → Black Han Sans, DM Sans → Pretendard로 대체.
 -->
 <head>
 <meta charset="UTF-8">
@@ -19,9 +20,8 @@
 <link rel="canonical" href="https://cheongju-usedcar.pages.dev/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=DM+Sans:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-<!-- 링크 공유 미리보기 (카톡/페북 등) -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="청주중고차">
 <meta property="og:title" content="청주중고차 — 청주오토월드 중고차·수입차 매매 정보">
@@ -56,243 +56,237 @@
 </script>
 <style>
   :root{
-    --cover:#10171f; --cover2:#0a0f15; --cover-line:rgba(233,228,214,.14);
-    --paper:#f6f1e5; --paper-dim:#ece2c9; --paper-line:rgba(28,36,48,.14);
-    --ink:#1c2430; --ink-soft:#5c6577;
-    --off:#ece7d8; --off-soft:#9b9686;
-    --seal:#9c2b2b; --seal-hi:#b23636; --seal-deep:#711f1f;
-    --shadow:0 18px 40px rgba(0,0,0,.45); --shadow-sm:0 6px 16px rgba(0,0,0,.3);
-    --r:5px; --r-lg:8px;
-    --serif:'Noto Serif KR',"Nanum Myeongjo",serif;
+    --ember:#fc5000; --ember-dim:#e04700;
+    --plasma:#524ae9; --sulfur:#f5f28e;
+    --limestone:#f7f6f2; --pumice:#e2e2df;
+    --obsidian:#070607; --obsidian-60:rgba(7,6,7,.6); --obsidian-14:rgba(7,6,7,.14);
+    --chalk:#ffffff;
+    --r-card:40px; --r-btn:40px; --r-pill:999px; --r-input:100px; --r-sm:16px; --r-md:20px;
+    --display:'Black Han Sans',var(--sans);
     --sans:'Pretendard',-apple-system,"Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;
+    --num:'DM Sans',var(--sans);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--cover);color:var(--off);
-    font-family:var(--sans);line-height:1.6;-webkit-text-size-adjust:100%}
+  html,body{background:var(--pumice);color:var(--obsidian);
+    font-family:var(--sans);font-weight:500;line-height:1.6;-webkit-text-size-adjust:100%}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
-  button,input,select{font-family:inherit;font-size:1rem}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-  :focus-visible{outline:2px solid var(--seal-hi);outline-offset:2px}
-  .tnum{font-variant-numeric:tabular-nums}
+  button,input,select{font-family:inherit;font-size:1rem;font-weight:500}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+  :focus-visible{outline:3px solid var(--obsidian);outline-offset:2px}
+  .tnum{font-family:var(--num);font-variant-numeric:tabular-nums}
 
   /* ---------- 헤더 ---------- */
-  header.top{position:sticky;top:0;z-index:50;background:rgba(16,23,31,.92);
-    backdrop-filter:blur(10px);border-bottom:1px solid var(--cover-line)}
+  header.top{position:sticky;top:0;z-index:50;background:var(--pumice);padding:16px 24px 0}
   .top-in{display:flex;align-items:center;justify-content:space-between;gap:12px;
-    max-width:1080px;margin:0 auto;padding:13px 20px}
-  .brand{display:flex;align-items:center;gap:11px;cursor:pointer;background:none;border:none;text-align:left}
-  .brand .seal-mark{width:36px;height:36px;flex-shrink:0}
-  .brand b{font-family:var(--serif);font-size:1.12rem;letter-spacing:-.01em;color:var(--off);font-weight:700}
-  .brand small{display:block;color:var(--off-soft);font-size:.68rem;font-weight:600;letter-spacing:.06em;margin-top:1px}
-  .top-call{background:var(--seal);color:var(--off);padding:9px 17px;border-radius:var(--r);
-    font-weight:700;font-size:.87rem;white-space:nowrap;min-height:38px;display:inline-flex;align-items:center;gap:6px;
-    border:1px solid var(--seal-hi);transition:background .15s}
-  .top-call:hover{background:var(--seal-hi)}
+    max-width:1232px;margin:0 auto;background:var(--limestone);border-radius:var(--r-pill);padding:9px 9px 9px 20px}
+  .brand{display:flex;align-items:center;gap:9px;cursor:pointer;background:none;border:none;text-align:left}
+  .brand .dot{width:13px;height:13px;border-radius:50%;background:var(--ember);flex-shrink:0}
+  .brand b{font-family:var(--display);font-size:1.2rem;letter-spacing:.01em;color:var(--obsidian);font-weight:400}
+  .top-call{background:var(--ember);color:var(--obsidian);padding:12px 22px;border-radius:var(--r-pill);
+    font-weight:700;font-size:.92rem;white-space:nowrap;min-height:40px;display:inline-flex;align-items:center;gap:7px;border:none}
 
   /* ---------- 히어로 ---------- */
-  .hero{background:
-    radial-gradient(ellipse 720px 420px at 88% -10%,rgba(156,43,43,.16),transparent 60%),
-    var(--cover);border-bottom:1px solid var(--cover-line)}
-  .hero-in{padding:52px 20px 40px;max-width:1080px;margin:0 auto}
-  .hero-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center}
-  .hero .eyebrow{font-family:var(--sans);font-size:.74rem;letter-spacing:.2em;color:var(--seal-hi);
-    text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:9px;margin-bottom:18px}
-  .hero .eyebrow::before{content:"";width:22px;height:1px;background:var(--seal-hi)}
-  .hero h1{font-family:var(--serif);font-size:2.5rem;line-height:1.32;letter-spacing:-.01em;font-weight:900;color:var(--off)}
-  .hero h1 em{font-style:normal;color:var(--seal-hi)}
-  .hero-rule{width:64px;height:2px;background:var(--seal);margin:22px 0}
-  .hero p{color:var(--off-soft);font-size:1rem;max-width:46ch;line-height:1.75}
-  .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
-  .hero-cred{display:flex;flex-wrap:wrap;gap:8px 0;margin-top:22px;font-size:.8rem;color:var(--off-soft);font-weight:500}
-  .hero-cred span:nth-child(even){margin:0 9px;color:var(--cover-line)}
-  .hero-seal{display:flex;align-items:center;justify-content:center}
-  .hero-seal svg{width:min(100%,260px);height:auto;color:var(--seal-hi);filter:drop-shadow(0 8px 20px rgba(156,43,43,.25))}
-  @media(max-width:860px){
-    .hero-grid{grid-template-columns:1fr;gap:28px}
-    .hero-seal{order:-1}
-    .hero-seal svg{width:150px}
-    .hero h1{font-size:1.9rem}
+  .hero{background:var(--pumice);padding:52px 24px 0}
+  .hero-in{max-width:1232px;margin:0 auto}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+  .hero .eyebrow{font-size:.82rem;letter-spacing:.02em;color:var(--obsidian-60);font-weight:700;display:block;margin-bottom:16px}
+  .hero h1{font-family:var(--display);font-weight:400;font-size:clamp(2.6rem,5.4vw,4.6rem);line-height:.98;letter-spacing:.02em;color:var(--obsidian)}
+  .hero h1 span{color:var(--ember)}
+  .hero p{color:var(--obsidian-60);font-size:1.02rem;max-width:44ch;line-height:1.7;margin-top:20px}
+  .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+  .hero-cred{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .hero-cred span{background:var(--limestone);border-radius:var(--r-pill);padding:7px 15px;font-size:.8rem;font-weight:700;color:var(--obsidian)}
+  .halftone{position:relative;border-radius:var(--r-card);overflow:hidden;aspect-ratio:1/1.02;
+    background:linear-gradient(155deg,var(--plasma) 0%,var(--ember) 78%)}
+  .halftone .photo{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.4;mix-blend-mode:luminosity}
+  .halftone .dots{position:absolute;inset:0;
+    background-image:radial-gradient(circle,rgba(255,255,255,.85) 1.7px,transparent 1.7px);
+    background-size:11px 11px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 90% at 78% 18%,#000 0%,rgba(0,0,0,.5) 45%,transparent 78%);
+    mask-image:radial-gradient(ellipse 90% 90% at 78% 18%,#000 0%,rgba(0,0,0,.5) 45%,transparent 78%)}
+  .halftone .cap{position:absolute;left:22px;right:22px;bottom:22px;color:var(--chalk)}
+  .halftone .cap b{font-family:var(--display);font-weight:400;font-size:2.2rem;display:block;line-height:1}
+  .halftone .cap span{font-size:.82rem;font-weight:700;opacity:.85}
+  @media(max-width:880px){
+    .hero-grid{grid-template-columns:1fr;gap:26px}
+    .halftone{order:-1;aspect-ratio:16/10}
   }
 
-  /* ---------- 강점 (paper 카드) ---------- */
-  .strengths{background:var(--cover);padding:6px 0 8px}
-  .str-in{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:26px 0 8px}
-  .scard{background:var(--paper);border:1px solid var(--paper-line);border-radius:var(--r);padding:19px 18px;color:var(--ink)}
-  .scard .sic{width:22px;height:22px;color:var(--seal)}
-  .scard b{display:block;margin-top:13px;font-family:var(--serif);font-size:1rem;font-weight:700;letter-spacing:-.01em}
-  .scard span{display:block;color:var(--ink-soft);font-size:.83rem;margin-top:5px;line-height:1.55}
-  @media(max-width:700px){.str-in{grid-template-columns:1fr}}
+  /* ---------- Stat Feature Card ---------- */
+  .stats{padding:56px 24px 0}
+  .stats-in{max-width:1232px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .stat-card{background:var(--ember);color:var(--chalk);border-radius:var(--r-card);padding:36px 32px}
+  .stat-card b{font-family:var(--num);font-weight:700;font-size:clamp(2.6rem,5vw,3.6rem);display:block;line-height:1}
+  .stat-card span{font-size:.88rem;font-weight:700;opacity:.92;display:block;margin-top:10px}
+  @media(max-width:760px){.stats-in{grid-template-columns:1fr}}
 
-  /* ---------- 소개 ---------- */
-  .intro{padding:38px 0 8px;border-top:1px solid var(--cover-line);margin-top:20px}
-  .intro .eyebrow2{font-size:.72rem;letter-spacing:.2em;color:var(--seal-hi);text-transform:uppercase;font-weight:700;display:block;margin-bottom:10px}
-  .intro h2{font-family:var(--serif);font-size:1.35rem;font-weight:700;letter-spacing:-.01em;margin-bottom:12px;color:var(--off)}
-  .intro p{color:var(--off-soft);font-size:.94rem;margin-bottom:14px;max-width:64ch;line-height:1.75}
-  .intro .areas{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
-  .intro .areas span{border:1px solid var(--cover-line);border-radius:999px;padding:5px 13px;font-size:.76rem;color:var(--off-soft);font-weight:600}
+  /* ---------- Content Card (강점) ---------- */
+  .strengths{padding:20px 24px 0}
+  .str-in{max-width:1232px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .ccard{background:var(--limestone);border-radius:var(--r-card);padding:32px}
+  .ccard .tag{display:inline-block;background:var(--sulfur);color:var(--obsidian);border-radius:var(--r-pill);
+    padding:4px 12px;font-size:.76rem;font-weight:700;margin-bottom:16px}
+  .ccard b{display:block;font-family:var(--display);font-weight:400;font-size:1.5rem;letter-spacing:.01em}
+  .ccard span{display:block;color:var(--obsidian-60);font-size:.87rem;margin-top:8px;line-height:1.55}
+  @media(max-width:760px){.str-in{grid-template-columns:1fr}}
+
+  /* ---------- 소개 (Plasma 콜아웃 1회) ---------- */
+  .intro{padding:20px 24px 0}
+  .intro-in{max-width:1232px;margin:0 auto}
+  .plasma-card{background:var(--plasma);color:var(--chalk);border-radius:var(--r-card);padding:38px;position:relative;overflow:hidden}
+  .plasma-card::after{content:"";position:absolute;inset:0;
+    background-image:radial-gradient(circle,rgba(255,255,255,.16) 1.6px,transparent 1.6px);background-size:12px 12px;
+    -webkit-mask-image:linear-gradient(120deg,transparent 25%,#000 90%);mask-image:linear-gradient(120deg,transparent 25%,#000 90%)}
+  .plasma-card h2{font-family:var(--display);font-weight:400;font-size:1.7rem;letter-spacing:.01em;margin-bottom:12px;position:relative}
+  .plasma-card p{font-size:.94rem;line-height:1.75;max-width:64ch;opacity:.95;position:relative}
+  .areas{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative}
+  .areas span{background:rgba(255,255,255,.16);border-radius:var(--r-pill);padding:6px 14px;font-size:.78rem;font-weight:700}
 
   /* ---------- 찾아오시는 길 ---------- */
-  .visit{padding:14px 0 36px}
-  .visit-addr{background:var(--paper);border:1px solid var(--paper-line);border-radius:var(--r);padding:18px 19px;margin-bottom:14px;color:var(--ink)}
-  .va-line{font-size:1.02rem;font-weight:700;font-family:var(--serif)}
-  .va-sub{color:var(--ink-soft);font-size:.85rem;margin-top:5px}
-  .map-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  .mapbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:13px 8px;border-radius:var(--r);
-    font-weight:700;font-size:.87rem;cursor:pointer;border:1px solid transparent;
-    min-height:48px;text-align:center}
+  .visit{padding:20px 24px 40px}
+  .visit-in{max-width:1232px;margin:0 auto}
+  .visit-card{background:var(--limestone);border-radius:var(--r-card);padding:32px}
+  .va-line{font-family:var(--display);font-weight:400;font-size:1.35rem}
+  .va-sub{color:var(--obsidian-60);font-size:.86rem;margin-top:6px}
+  .map-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}
+  .mapbtn{display:flex;align-items:center;justify-content:center;gap:6px;padding:14px 8px;border-radius:var(--r-pill);
+    font-weight:700;font-size:.86rem;cursor:pointer;border:none;min-height:46px;text-align:center}
   .mapbtn.nv{background:#03c75a;color:#fff}
   .mapbtn.kk{background:#ffe812;color:#3a1d1d}
   .mapbtn.tm{background:#1b3ce0;color:#fff}
-  .mapbtn.cp{background:transparent;color:var(--off);border-color:var(--cover-line)}
+  .mapbtn.cp{background:var(--pumice);color:var(--obsidian)}
   @media(max-width:560px){.map-btns{grid-template-columns:1fr 1fr}}
 
-  /* ---------- 상태 탭 (밑줄식) ---------- */
-  .statetabs{display:flex;gap:26px;margin:34px 0 0;border-bottom:1px solid var(--cover-line)}
-  .statetabs button{border:none;background:transparent;padding:0 0 13px;font-weight:700;color:var(--off-soft);
-    cursor:pointer;min-height:42px;font-size:.96rem;border-bottom:2px solid transparent;margin-bottom:-1px}
-  .statetabs button.on{color:var(--off);border-color:var(--seal-hi)}
-  .statetabs button .n{opacity:.8;font-weight:600;margin-left:4px;font-size:.85rem}
+  /* ---------- 상태 탭 (세그먼트 필) ---------- */
+  .statetabs{display:inline-flex;gap:4px;margin:44px 0 20px;background:var(--limestone);border-radius:var(--r-pill);padding:5px}
+  .statetabs button{border:none;background:transparent;padding:11px 20px;border-radius:var(--r-pill);font-weight:700;color:var(--obsidian-60);
+    cursor:pointer;min-height:40px;font-size:.9rem}
+  .statetabs button.on{background:var(--ember);color:var(--obsidian)}
+  .statetabs button .n{opacity:.8;font-weight:700;margin-left:4px}
 
-  /* ---------- 필터 (종이 슬립) ---------- */
-  .filters-box{background:var(--paper);border:1px solid var(--paper-line);border-radius:var(--r);padding:16px;margin:18px 0;color:var(--ink)}
+  /* ---------- 필터 ---------- */
+  .filters-box{background:var(--limestone);border-radius:var(--r-card);padding:20px;margin-bottom:20px}
   .search{position:relative;margin-bottom:12px}
-  .search input{width:100%;padding:12px 14px 12px 38px;border:1px solid var(--paper-line);
-    border-radius:4px;background:#fff;color:var(--ink)}
-  .search input::placeholder{color:var(--ink-soft)}
-  .search input:focus{outline:2px solid var(--seal);outline-offset:0;border-color:var(--seal)}
-  .search .ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--ink-soft);width:16px;height:16px}
+  .search input{width:100%;padding:15px 20px 15px 44px;border:none;border-radius:var(--r-input);background:var(--chalk);color:var(--obsidian)}
+  .search input::placeholder{color:var(--obsidian-60)}
+  .search input:focus{outline:2px solid var(--obsidian)}
+  .search .ic{position:absolute;left:17px;top:50%;transform:translateY(-50%);color:var(--obsidian-60);width:16px;height:16px}
   .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-  .fgrid select{width:100%;padding:11px 12px;border:1px solid var(--paper-line);border-radius:4px;
-    background:#fff;font-weight:600;color:var(--ink);min-height:44px}
-  .fgrid select:focus{outline:2px solid var(--seal);outline-offset:0;border-color:var(--seal)}
+  .fgrid select{width:100%;padding:13px 18px;border:none;border-radius:var(--r-pill);
+    background:var(--chalk);font-weight:700;color:var(--obsidian);min-height:44px}
+  .fgrid select:focus{outline:2px solid var(--obsidian)}
   .origin-chips{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap}
-  .ochip{background:#fff;border:1px solid var(--paper-line);border-radius:999px;padding:8px 16px;
-    font-size:.85rem;font-weight:700;color:var(--ink);cursor:pointer;min-height:38px}
-  .ochip.on{background:var(--seal);color:var(--off);border-color:var(--seal)}
-  .adv-toggle{margin-top:11px;background:none;border:none;color:var(--seal);font-weight:700;
-    font-size:.85rem;cursor:pointer;padding:6px 2px;min-height:38px}
-  .adv{display:none;margin-top:8px;padding-top:11px;border-top:1px dashed var(--paper-line)}
+  .ochip{background:var(--chalk);border:none;border-radius:var(--r-pill);padding:9px 18px;
+    font-size:.85rem;font-weight:700;color:var(--obsidian);cursor:pointer;min-height:38px}
+  .ochip.on{background:var(--obsidian);color:var(--chalk)}
+  .adv-toggle{margin-top:12px;background:none;border:none;color:var(--obsidian);font-weight:700;
+    font-size:.85rem;cursor:pointer;padding:6px 2px;min-height:38px;text-decoration:underline}
+  .adv{display:none;margin-top:10px;padding-top:12px}
   .adv.open{display:block}
   .adv .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
-  .adv .row label{font-weight:700;font-size:.82rem;min-width:64px;color:var(--ink-soft)}
-  .adv .row input{flex:1;min-width:90px;padding:9px 11px;border:1px solid var(--paper-line);border-radius:4px;background:#fff;color:var(--ink)}
-  .filter-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:9px;flex-wrap:wrap}
-  .reset-btn{background:transparent;border:1px solid var(--paper-line);border-radius:4px;padding:8px 14px;font-weight:700;font-size:.82rem;cursor:pointer;color:var(--ink-soft);min-height:38px}
-  .count{color:var(--off-soft);font-size:.85rem;font-weight:600}
+  .adv .row label{font-weight:700;font-size:.82rem;min-width:64px;color:var(--obsidian-60)}
+  .adv .row input{flex:1;min-width:90px;padding:10px 14px;border:none;border-radius:var(--r-input);background:var(--chalk);color:var(--obsidian)}
+  .filter-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .reset-btn{background:transparent;border:none;border-radius:var(--r-pill);padding:8px 14px;font-weight:700;font-size:.82rem;cursor:pointer;color:var(--obsidian-60);text-decoration:underline}
+  .count{color:var(--obsidian-60);font-size:.85rem;font-weight:700}
 
-  /* ---------- 매물 그리드 (paper 카드) ---------- */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:18px;padding-bottom:36px}
-  .card{background:var(--paper);border:1px solid var(--paper-line);border-radius:var(--r);
-    overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;
-    text-align:left;width:100%;font:inherit;color:var(--ink);padding:0;display:block}
-  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-sm)}
-  .card:active{transform:translateY(-1px)}
-  .ph{position:relative;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
-    color:#fff;font-size:.8rem;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.3);text-align:center;padding:8px;
-    background-size:cover;background-position:center;background-color:var(--paper-dim)}
-  .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 62%,rgba(0,0,0,.32) 100%)}
-  .ph span{position:relative;z-index:1}
-  .badge-sold{position:absolute;top:10px;left:10px;z-index:2;background:var(--ink);color:var(--off);
-    font-size:.72rem;font-weight:800;padding:5px 10px;border-radius:3px;letter-spacing:.02em}
-  .badge-cat{position:absolute;top:10px;right:10px;z-index:2;background:rgba(16,23,31,.78);color:#fff;
-    font-size:.68rem;font-weight:700;padding:4px 9px;border-radius:3px}
-  .stamp{position:absolute;right:8px;bottom:8px;z-index:2;width:50px;height:50px;color:var(--seal-hi);
-    opacity:.96;transform:rotate(-9deg);filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
-  .stamp circle,.stamp path{vector-effect:non-scaling-stroke}
-  .d-stamp{width:80px;height:80px;color:var(--seal);opacity:1;transform:rotate(-7deg);
-    filter:drop-shadow(0 3px 6px rgba(156,43,43,.25));flex-shrink:0}
-  .card-body{padding:14px 15px 16px}
-  .car-name{font-family:var(--serif);font-weight:700;font-size:1.02rem;letter-spacing:-.01em;overflow-wrap:anywhere;word-break:break-word;color:var(--ink)}
-  .car-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-  .car-tags .t{border:1px solid var(--paper-line);color:var(--ink-soft);font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:3px}
-  .car-meta{color:var(--ink-soft);font-size:.82rem;margin-top:8px;overflow-wrap:anywhere}
-  .car-price{margin-top:9px;color:var(--ink);font-weight:800;font-size:1.18rem}
-  .car-price small{font-size:.76rem;color:var(--ink-soft);font-weight:600}
-  .card.done{opacity:.6}
+  /* ---------- 매물 그리드 ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:16px;padding-bottom:40px}
+  .card{background:var(--limestone);border:none;border-radius:var(--r-card);
+    overflow:hidden;cursor:pointer;transition:background .15s;
+    text-align:left;width:100%;font:inherit;color:var(--obsidian);padding:0;display:block}
+  .card:hover{background:#efeee8}
+  .ph{position:relative;aspect-ratio:4/3;display:flex;align-items:flex-end;justify-content:flex-start;
+    color:#fff;font-size:.8rem;font-weight:700;text-align:center;padding:14px;margin:10px;border-radius:calc(var(--r-card) - 10px);
+    background-size:cover;background-position:center;background-color:var(--pumice);overflow:hidden}
+  .badge-sold{position:absolute;top:14px;left:14px;z-index:2;background:var(--obsidian);color:var(--chalk);
+    font-size:.72rem;font-weight:700;padding:6px 12px;border-radius:var(--r-pill)}
+  .badge-cat{position:absolute;top:14px;right:14px;z-index:2;background:var(--sulfur);color:var(--obsidian);
+    font-size:.7rem;font-weight:700;padding:5px 11px;border-radius:var(--r-pill)}
+  .card-body{padding:6px 20px 22px}
+  .car-name{font-family:var(--display);font-weight:400;font-size:1.15rem;letter-spacing:.005em;overflow-wrap:anywhere;word-break:break-word;color:var(--obsidian)}
+  .car-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+  .car-tags .t{background:var(--sulfur);color:var(--obsidian);font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:var(--r-pill)}
+  .car-meta{color:var(--obsidian-60);font-size:.82rem;margin-top:10px;overflow-wrap:anywhere;font-weight:700}
+  .car-price{margin-top:10px;color:var(--ember-dim);font-weight:700;font-size:1.3rem;font-family:var(--num)}
+  .car-price small{font-size:.76rem;color:var(--obsidian-60);font-weight:700;font-family:var(--sans)}
+  .card.done{opacity:.55}
 
-  /* ---------- 상세: 서류 시트 ---------- */
-  .detail{padding:26px 0 44px}
-  .back{display:inline-flex;align-items:center;gap:6px;color:var(--off-soft);font-weight:600;
-    font-size:.88rem;margin-bottom:16px;cursor:pointer;background:none;border:none;min-height:44px;padding:6px 4px}
-  .back:hover{color:var(--off)}
-  .sheet{background:var(--paper);border:1px solid var(--paper-line);border-radius:var(--r-lg);
-    padding:22px 22px 26px;color:var(--ink);box-shadow:var(--shadow)}
-  .gallery{position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--paper-line);background:var(--paper-dim);margin-bottom:22px}
+  /* ---------- 상세 ---------- */
+  .detail{padding:32px 0 44px}
+  .back{display:inline-flex;align-items:center;gap:6px;color:var(--obsidian-60);font-weight:700;
+    font-size:.88rem;margin-bottom:18px;cursor:pointer;background:none;border:none;min-height:44px;padding:6px 4px}
+  .back:hover{color:var(--obsidian)}
+  .sheet{background:var(--limestone);border-radius:var(--r-card);padding:28px}
+  .gallery{position:relative;border-radius:var(--r-md);overflow:hidden;background:var(--pumice);margin-bottom:26px}
   .slides{display:flex;transition:transform .3s ease;touch-action:pan-y}
   .slide{min-width:100%;aspect-ratio:16/10}
-  .gnav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;
-    background:rgba(16,23,31,.55);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;
-    justify-content:center;cursor:pointer;font-size:1.25rem;color:#fff;backdrop-filter:blur(4px);z-index:3}
-  .gnav:hover{background:rgba(16,23,31,.75)}
-  .gnav.prev{left:10px}.gnav.next{right:10px}
-  .dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:3}
+  .gnav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+    background:rgba(7,6,7,.55);border:none;display:flex;align-items:center;
+    justify-content:center;cursor:pointer;font-size:1.3rem;color:#fff;z-index:3}
+  .gnav.prev{left:12px}.gnav.next{right:12px}
+  .dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:3}
   .dots button{width:22px;height:22px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
-  .dots button::before{content:"";width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);transition:.2s}
-  .dots button.on::before{background:var(--seal-hi);width:18px;border-radius:4px}
-  .d-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:8px}
-  .d-title{font-family:var(--serif);font-size:1.55rem;font-weight:700;letter-spacing:-.01em;overflow-wrap:anywhere;word-break:break-word}
-  .d-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-  .d-tags .t{border:1px solid var(--paper-line);color:var(--ink-soft);font-size:.76rem;font-weight:700;padding:4px 10px;border-radius:3px}
-  .d-price{color:var(--ink);font-weight:800;font-size:1.7rem;margin-bottom:20px;padding-bottom:20px;border-bottom:1px dashed var(--paper-line)}
-  .d-price small{font-size:.85rem;font-weight:600;color:var(--ink-soft)}
-  .spec{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-bottom:20px;border:1px solid var(--paper-line);border-radius:4px;overflow:hidden}
-  .spec .item{padding:12px 15px;border-bottom:1px solid var(--paper-line);border-right:1px solid var(--paper-line)}
-  .spec .item:nth-child(2n){border-right:none}
-  .spec .item:nth-last-child(-n+2){border-bottom:none}
-  .spec .item small{display:block;color:var(--ink-soft);font-size:.74rem;margin-bottom:4px;font-weight:600}
-  .spec .item b{font-size:1rem;font-weight:700}
-  .desc{background:#fff;border:1px solid var(--paper-line);border-radius:4px;padding:16px;
-    color:var(--ink);white-space:pre-line;margin-bottom:20px;overflow-wrap:anywhere;font-size:.94rem;line-height:1.75}
+  .dots button::before{content:"";width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55)}
+  .dots button.on::before{background:var(--ember);width:18px;border-radius:4px}
+  .d-head{margin-bottom:10px}
+  .d-title{font-family:var(--display);font-weight:400;font-size:2rem;letter-spacing:.01em;overflow-wrap:anywhere;word-break:break-word}
+  .d-tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+  .d-tags .t{background:var(--sulfur);color:var(--obsidian);font-size:.78rem;font-weight:700;padding:5px 13px;border-radius:var(--r-pill)}
+  .d-price{color:var(--ember-dim);font-weight:700;font-size:2rem;font-family:var(--num);margin-bottom:24px}
+  .d-price small{font-size:.9rem;font-weight:700;color:var(--obsidian-60);font-family:var(--sans)}
+  .spec{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px}
+  .spec .item{background:var(--pumice);border-radius:var(--r-md);padding:16px 18px}
+  .spec .item small{display:block;color:var(--obsidian-60);font-size:.76rem;margin-bottom:5px;font-weight:700}
+  .spec .item b{font-size:1.05rem;font-family:var(--num);font-weight:700}
+  .desc{background:var(--chalk);border-radius:var(--r-md);padding:20px;
+    color:var(--obsidian);white-space:pre-line;margin-bottom:22px;overflow-wrap:anywhere;font-size:.94rem;line-height:1.75}
 
   /* ---------- 버튼 ---------- */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--seal);
-    color:var(--off);border:1px solid var(--seal-hi);border-radius:var(--r);padding:14px 22px;font-weight:700;cursor:pointer;
-    width:100%;font-size:.98rem;transition:background .15s;min-height:48px}
-  .btn:hover{background:var(--seal-hi)}
-  .btn.sec{background:transparent;color:var(--off);border:1px solid var(--cover-line)}
-  .btn.sec:hover{border-color:var(--off-soft)}
-  .btn.onpaper{color:var(--ink);border-color:var(--paper-line)}
-  .btn.onpaper:hover{border-color:var(--ink-soft);background:rgba(28,36,48,.04)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--ember);
+    color:var(--obsidian);border:none;border-radius:var(--r-pill);padding:16px 26px;font-weight:700;cursor:pointer;
+    width:100%;font-size:1rem;transition:background .15s;min-height:50px}
+  .btn:hover{background:var(--ember-dim)}
+  .btn.sec{background:transparent;color:var(--obsidian);border:1.5px solid var(--obsidian);border-radius:var(--r-btn)}
+  .btn.sec:hover{background:rgba(7,6,7,.05)}
+  .btn.onpaper{background:var(--chalk);color:var(--obsidian);border:1.5px solid var(--obsidian-14)}
   .btn-row{display:flex;gap:10px;flex-wrap:wrap}
 
-  .empty{text-align:center;color:var(--ink-soft);padding:44px 16px;background:var(--paper);
-    border:1px dashed var(--paper-line);border-radius:var(--r)}
+  .empty{text-align:center;color:var(--obsidian-60);padding:48px 16px;background:var(--limestone);
+    border-radius:var(--r-card);font-weight:700}
 
   /* ---------- 하단 고정 전화 ---------- */
-  .float-call{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:11px 16px calc(11px + env(safe-area-inset-bottom));
-    background:rgba(10,15,21,.94);backdrop-filter:blur(10px);border-top:1px solid var(--cover-line)}
-  .float-call a{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--seal);
-    color:var(--off);font-weight:700;padding:14px;border-radius:var(--r);font-size:1rem;max-width:1080px;margin:0 auto;border:1px solid var(--seal-hi)}
-  main{padding-bottom:98px;min-height:60vh}
+  .float-call{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:14px 24px calc(14px + env(safe-area-inset-bottom))}
+  .float-call a{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ember);
+    color:var(--obsidian);font-weight:700;padding:16px;border-radius:var(--r-pill);font-size:1.02rem;max-width:1232px;margin:0 auto}
+  main{padding-bottom:104px;min-height:60vh;background:var(--pumice)}
 
   /* ---------- 푸터 ---------- */
-  footer{border-top:1px solid var(--cover-line);background:var(--cover2);color:var(--off-soft);
-    font-size:.85rem;padding:30px 20px calc(98px + env(safe-area-inset-bottom))}
-  footer .wrap{max-width:1080px}
-  footer b{color:var(--off);font-family:var(--serif);font-weight:700}
-  footer .note{margin-top:12px;padding-top:12px;border-top:1px dashed var(--cover-line);max-width:56ch}
+  footer{background:var(--pumice);color:var(--obsidian-60);font-size:.85rem;padding:36px 24px calc(104px + env(safe-area-inset-bottom))}
+  footer .wrap{max-width:1232px}
+  footer b{color:var(--obsidian);font-family:var(--display);font-weight:400;font-size:1.05rem}
+  footer .note{margin-top:14px;max-width:56ch}
   footer .rel{margin-top:12px;font-size:.8rem}
-  footer .rel a{color:var(--seal-hi);font-weight:700}
+  footer .rel a{color:var(--ember-dim);font-weight:700}
 
-  .toast{position:fixed;left:50%;bottom:98px;transform:translateX(-50%) translateY(20px);
-    background:var(--paper);color:var(--ink);border:1px solid var(--paper-line);padding:13px 20px;border-radius:var(--r);font-weight:700;font-size:.9rem;
-    box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:200;max-width:90vw;text-align:center}
+  .toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%) translateY(20px);
+    background:var(--obsidian);color:var(--chalk);padding:14px 22px;border-radius:var(--r-pill);font-weight:700;font-size:.9rem;
+    opacity:0;pointer-events:none;transition:.25s;z-index:200;max-width:90vw;text-align:center}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
   @media(max-width:480px){
-    .hero-in{padding:36px 20px 30px}
-    .hero h1{font-size:1.65rem}
+    .hero{padding:36px 20px 0}
+    .stats,.strengths,.intro,.visit{padding-left:20px;padding-right:20px}
+    header.top{padding:14px 16px 0}
+    .top-in{padding:7px 7px 7px 16px}
     .spec{grid-template-columns:1fr}
-    .spec .item{border-right:none !important}
-    .spec .item:nth-last-child(-n+2){border-bottom:1px solid var(--paper-line)}
-    .spec .item:last-child{border-bottom:none}
-    .d-title{font-size:1.3rem}
-    .sheet{padding:16px 16px 20px}
+    .d-title{font-size:1.6rem}
+    .sheet{padding:18px}
   }
   @media print{
     header.top,.float-call,.filters-box,.statetabs,.back,.btn-row,.toast{display:none !important}
-    body{padding:0;background:#fff;color:#000}main{padding:0}.sheet{box-shadow:none}
+    body{padding:0;background:#fff}main{padding:0}
   }
 </style>
 </head>
@@ -301,31 +295,27 @@
 <header class="top">
   <div class="top-in">
     <button class="brand" type="button" onclick="location.hash='#home'" aria-label="홈으로">
-      <span class="seal-mark" id="headSeal"></span>
-      <div>
-        <b id="brandName">청주중고차</b>
-        <small>청주오토월드 매매정보</small>
-      </div>
+      <span class="dot" aria-hidden="true"></span>
+      <b>청주중고차</b>
     </button>
-    <a class="top-call" id="topCall" href="#"><span aria-hidden="true">☎</span> 전화 문의</a>
+    <a class="top-call" id="topCall" href="#">전화 문의</a>
   </div>
 </header>
 
 <main id="view"></main>
 
 <div class="float-call">
-  <a id="floatCall" href="#"><span aria-hidden="true">☎</span> 바로 전화문의</a>
+  <a id="floatCall" href="#">바로 전화문의</a>
 </div>
 
 <footer>
   <div class="wrap">
-    <b id="footName">청주중고차</b> · 청주·충북 중고차·수입차 매매 정보<br>
-    <span aria-hidden="true">📍</span> <span id="footAddr">청주시 청원구 2순환로 50 (청주오토월드 내)</span><br>
-    <span aria-hidden="true">☎</span> <span id="footTel">010-3042-7755</span><br>
-    <span aria-hidden="true">🕒</span> <span id="footHours">24시간 상담 가능 (연중무휴)</span>
-    <div class="note">
-      ※ 표기 정보는 실제 차량 상태를 기준으로 하며, 매물별 성능점검기록부를 함께 제공합니다.
-    </div>
+    <b id="footName">청주중고차</b><br><br>
+    청주·충북 중고차·수입차 매매 정보<br>
+    📍 <span id="footAddr">청주시 청원구 2순환로 50 (청주오토월드 내)</span><br>
+    ☎ <span id="footTel">010-3042-7755</span><br>
+    🕒 <span id="footHours">24시간 상담 가능 (연중무휴)</span>
+    <div class="note">※ 표기 정보는 실제 차량 상태를 기준으로 하며, 매물별 성능점검기록부를 함께 제공합니다.</div>
     <div class="rel">전시장 실차 확인 · 매물 상세문의: <a href="https://1004motors.pages.dev">1004motors.pages.dev</a></div>
   </div>
 </footer>
@@ -412,45 +402,8 @@ function photoUrl(p){
 }
 let toastT;
 function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400);}
-function phGrad(hue,seedN){const h=((+hue||210)+seedN*18)%360;return `background:linear-gradient(135deg,hsl(${h},32%,42%),hsl(${(h+30)%360},38%,26%))`;}
+function phGrad(hue,seedN){const h=((+hue||210)+seedN*18)%360;return `background:linear-gradient(135deg,hsl(${h},70%,55%),hsl(${(h+30)%360},75%,42%))`;}
 function phStyle(c,seedN){if(c.photos&&c.photos.length){return `background-image:url('${photoUrl(c.photos[0]).replace(/'/g,"%27")}')`;}return phGrad(c.hue,seedN);}
-/* 성능점검 완료 관인 스탬프 — 매물별 성능점검기록부 제공 약속을 그대로 시각화 */
-function stampSVG(id,cls){
-  const arcId='stampArc_'+String(id).replace(/[^a-zA-Z0-9_]/g,'');
-  return `<svg class="${cls}" viewBox="0 0 100 100" aria-hidden="true">
-    <defs><path id="${arcId}" d="M 14 56 A 36 36 0 1 1 86 56" fill="none"/></defs>
-    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2.2"/>
-    <circle cx="50" cy="50" r="38.5" fill="none" stroke="currentColor" stroke-width="1"/>
-    <text font-size="10.5" font-weight="700" letter-spacing="1.5">
-      <textPath href="#${arcId}" startOffset="50%" text-anchor="middle" fill="currentColor">성능점검 완료</textPath>
-    </text>
-    <text x="50" y="52" font-size="13.5" font-weight="800" fill="currentColor" text-anchor="middle" letter-spacing=".5">CHECKED</text>
-    <text x="50" y="65" font-size="6.2" font-weight="700" fill="currentColor" text-anchor="middle" letter-spacing="1.5">청주중고차</text>
-  </svg>`;
-}
-/* 헤더용 작은 인장(도장) 마크 — "청" 한 글자를 새긴 실제 개인/법인 인감 스타일 */
-function sealMarkSVG(){
-  return `<svg viewBox="0 0 40 40" role="img" aria-label="청주중고차 인장">
-    <circle cx="20" cy="20" r="18.5" fill="none" stroke="#9c2b2b" stroke-width="2.2"/>
-    <circle cx="20" cy="20" r="14.5" fill="none" stroke="#9c2b2b" stroke-width="1"/>
-    <text x="20" y="26" font-family="'Noto Serif KR',serif" font-size="16" font-weight="900" fill="#9c2b2b" text-anchor="middle">청</text>
-  </svg>`;
-}
-/* 히어로용 대형 인장 — 사이트 전체의 "인증" 약속을 나타내는 시그니처 그래픽 */
-function heroSealSVG(){
-  const arcId='heroArc';
-  return `<svg viewBox="0 0 220 220" aria-hidden="true">
-    <defs><path id="${arcId}" d="M 30 118 A 88 88 0 1 1 190 118" fill="none"/></defs>
-    <circle cx="110" cy="110" r="104" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".55"/>
-    <circle cx="110" cy="110" r="92" fill="none" stroke="currentColor" stroke-width="3"/>
-    <circle cx="110" cy="110" r="80" fill="none" stroke="currentColor" stroke-width="1" opacity=".7"/>
-    <text font-size="14.5" font-weight="700" letter-spacing="3">
-      <textPath href="#${arcId}" startOffset="50%" text-anchor="middle" fill="currentColor">성능점검 인증 매물</textPath>
-    </text>
-    <text x="110" y="126" font-family="'Noto Serif KR',serif" font-size="52" font-weight="900" fill="currentColor" text-anchor="middle">청</text>
-    <text x="110" y="168" font-size="8.5" font-weight="700" fill="currentColor" text-anchor="middle" letter-spacing="3">CHEONGJU · USED CAR</text>
-  </svg>`;
-}
 function normalizeList(arr){
   return (arr||[]).map(c=>{
     const name=String(c.name||'이름없음');
@@ -475,12 +428,10 @@ function normalizeList(arr){
 
 /* ---------- 가게정보 주입 ---------- */
 function applyShop(){
-  document.getElementById('brandName').textContent=SHOP.name;
   document.getElementById('footName').textContent=SHOP.name;
   document.getElementById('footAddr').textContent=SHOP.addr;
   document.getElementById('footTel').textContent=SHOP.tel;
   document.getElementById('footHours').textContent=SHOP.hours;
-  document.getElementById('headSeal').innerHTML=sealMarkSVG();
   const href=telHref(SHOP.tel);
   document.getElementById('topCall').setAttribute('href',href);
   document.getElementById('floatCall').setAttribute('href',href);
@@ -538,42 +489,56 @@ function renderHome(){
   const all=getList();
   const nOn=all.filter(c=>!c.sold).length, nSold=all.filter(c=>c.sold).length;
   const bopts=brandOptions();
+  const heroPhoto=all.find(c=>!c.sold&&c.photos&&c.photos.length);
   document.getElementById('view').innerHTML=`
   <section class="hero">
     <div class="hero-in">
       <div class="hero-grid">
         <div class="hero-copy">
           <span class="eyebrow">청주오토월드 · 성능점검 인증 매물</span>
-          <h1>청주에서 산다면,<br>기록이 있는 차만<br><em>삽니다.</em></h1>
-          <div class="hero-rule" aria-hidden="true"></div>
+          <h1>청주에서<br>믿을 수 있는<br>차만 <span>파세요.</span></h1>
           <p>정비기능사가 직접 점검하고, 매물마다 성능점검기록부를 함께 드립니다. 사진과 광고 문구가 아니라 기록으로 증명하는 매매만 소개합니다.</p>
           <div class="hero-actions">
-            <a class="btn" style="width:auto" id="heroCall" href="#"><span aria-hidden="true">☎</span> 전화로 문의하기</a>
-            <a class="btn sec" style="width:auto" href="#listing" onclick="document.querySelector('.statetabs').scrollIntoView({behavior:'smooth'})">매물 목록 보기</a>
+            <a class="btn" style="width:auto" id="heroCall" href="#">전화로 문의하기</a>
+            <a class="btn sec" style="width:auto" href="#" onclick="document.querySelector('.statetabs').scrollIntoView({behavior:'smooth'});return false;">매물 목록 보기</a>
           </div>
           <div class="hero-cred">
-            <span>정비기능사 직접 점검</span><span>·</span><span>성능점검기록부 제공</span><span>·</span><span>청주오토월드 실차 확인</span>
+            <span>정비기능사 직접 점검</span><span>성능점검기록부 제공</span><span>청주오토월드 실차 확인</span>
           </div>
         </div>
-        <div class="hero-seal">${heroSealSVG()}</div>
+        <div class="halftone">
+          ${heroPhoto?`<div class="photo" style="${phStyle(heroPhoto,0)}"></div>`:''}
+          <div class="dots"></div>
+          <div class="cap"><b>${nOn}대</b><span>지금 판매중 · 성능점검 100% 제공</span></div>
+        </div>
       </div>
     </div>
   </section>
-  <section class="strengths">
-    <div class="wrap str-in">
-      <div class="scard"><svg class="sic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.6 5L3 17.4 5.6 20l6.1-6.1a4 4 0 0 0 5-5.6l-2.5 2.5-2-2 2.5-2.5z"/></svg><b>정비기능사 직접 점검</b><span>등록 전 차량 상태를 직접 확인한 매물만 올립니다</span></div>
-      <div class="scard"><svg class="sic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4M9 13l2 2 4-4"/></svg><b>성능점검기록부 제공</b><span>매물마다 점검 결과를 문서로 함께 안내합니다</span></div>
-      <div class="scard"><svg class="sic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg><b>청주오토월드 실차 확인</b><span>청주시 청원구 매매단지에서 직접 보실 수 있습니다</span></div>
+  <section class="stats">
+    <div class="stats-in">
+      <div class="stat-card"><b class="tnum">${nOn}</b><span>판매중 매물</span></div>
+      <div class="stat-card"><b class="tnum">${nSold}</b><span>판매완료 실적</span></div>
+      <div class="stat-card"><b class="tnum">100%</b><span>성능점검기록부 제공</span></div>
     </div>
   </section>
-  <div class="wrap intro">
-    <span class="eyebrow2">안내</span>
-    <h2>청주중고차 매매, 이렇게 고르세요</h2>
-    <p>중고차는 사진과 광고 문구만으로는 상태를 알기 어렵습니다. 이 페이지는 청주오토월드 매매단지에서 실제로 관리 중인 매물 정보를 정리해 보여드리며, 연식·주행거리·연료·가격을 기준으로 바로 비교할 수 있습니다. 궁금한 매물은 전화로 문의하시면 실차 확인 일정을 안내해 드립니다.</p>
-    <div class="areas">
-      <span>청주시 청원구</span><span>흥덕구</span><span>상당구</span><span>서원구</span><span>오창</span><span>오송</span><span>청주오토월드</span>
+  <section class="strengths">
+    <div class="str-in">
+      <div class="ccard"><span class="tag">점검</span><b>정비기능사 직접 점검</b><span>등록 전 차량 상태를 직접 확인한 매물만 올립니다</span></div>
+      <div class="ccard"><span class="tag">서류</span><b>성능점검기록부 제공</b><span>매물마다 점검 결과를 문서로 함께 안내합니다</span></div>
+      <div class="ccard"><span class="tag">방문</span><b>청주오토월드 실차 확인</b><span>청주시 청원구 매매단지에서 직접 보실 수 있습니다</span></div>
     </div>
-  </div>
+  </section>
+  <section class="intro">
+    <div class="intro-in">
+      <div class="plasma-card">
+        <h2>청주중고차 매매, 이렇게 고르세요</h2>
+        <p>중고차는 사진과 광고 문구만으로는 상태를 알기 어렵습니다. 이 페이지는 청주오토월드 매매단지에서 실제로 관리 중인 매물 정보를 정리해 보여드리며, 연식·주행거리·연료·가격을 기준으로 바로 비교할 수 있습니다. 궁금한 매물은 전화로 문의하시면 실차 확인 일정을 안내해 드립니다.</p>
+        <div class="areas">
+          <span>청주시 청원구</span><span>흥덕구</span><span>상당구</span><span>서원구</span><span>오창</span><span>오송</span><span>청주오토월드</span>
+        </div>
+      </div>
+    </div>
+  </section>
   <div class="wrap">
     <div class="statetabs" role="tablist">
       <button role="tab" class="${state.tab==='onsale'?'on':''}" onclick="setTab('onsale')">판매중<span class="n">${nOn}</span></button>
@@ -623,19 +588,17 @@ function renderHome(){
     </div>
     <div class="grid" id="grid"></div>
   </div>
-  <section class="visit"><div class="wrap">
-    <span class="eyebrow2">방문</span>
-    <h2 style="font-family:var(--serif);font-size:1.2rem;font-weight:700;letter-spacing:-.01em;color:var(--off);margin-bottom:12px">찾아오시는 길</h2>
-    <div class="visit-addr">
-      <div class="va-line">📍 청주시 청원구 2순환로 50</div>
-      <div class="va-sub">청주오토월드 중고차 매매단지 내</div>
+  <section class="visit"><div class="visit-in">
+    <div class="visit-card">
+      <div class="va-line">📍 찾아오시는 길</div>
+      <div class="va-sub">청주시 청원구 2순환로 50 · 청주오토월드 중고차 매매단지 내</div>
       <div class="va-sub">상리사거리에서 성모병원 방향 · 24시간 상담 (연중무휴)</div>
-    </div>
-    <div class="map-btns">
-      <a class="mapbtn nv" href="https://map.naver.com/p/search/2%EC%88%9C%ED%99%98%EB%A1%9C%2050/address/3zDVce,2AafmC,%EC%B6%A9%EC%B2%AD%EB%B6%81%EB%8F%84%20%EC%B2%AD%EC%A3%BC%EC%8B%9C%20%EC%B2%AD%EC%9B%90%EA%B5%AC%202%EC%88%9C%ED%99%98%EB%A1%9C%2050?c=15.00,0,0,0,dh" target="_blank" rel="noopener">네이버 지도</a>
-      <a class="mapbtn kk" href="https://map.kakao.com/?q=충청북도%20청주시%20청원구%202순환로%2050" target="_blank" rel="noopener">카카오맵</a>
-      <a class="mapbtn tm" href="tmap://search?name=충청북도%20청주시%20청원구%202순환로%2050">티맵</a>
-      <button class="mapbtn cp" type="button" onclick="copyAddr()">주소 복사</button>
+      <div class="map-btns">
+        <a class="mapbtn nv" href="https://map.naver.com/p/search/2%EC%88%9C%ED%99%98%EB%A1%9C%2050/address/3zDVce,2AafmC,%EC%B6%A9%EC%B2%AD%EB%B6%81%EB%8F%84%20%EC%B2%AD%EC%A3%BC%EC%8B%9C%20%EC%B2%AD%EC%9B%90%EA%B5%AC%202%EC%88%9C%ED%99%98%EB%A1%9C%2050?c=15.00,0,0,0,dh" target="_blank" rel="noopener">네이버 지도</a>
+        <a class="mapbtn kk" href="https://map.kakao.com/?q=충청북도%20청주시%20청원구%202순환로%2050" target="_blank" rel="noopener">카카오맵</a>
+        <a class="mapbtn tm" href="tmap://search?name=충청북도%20청주시%20청원구%202순환로%2050">티맵</a>
+        <button class="mapbtn cp" type="button" onclick="copyAddr()">주소 복사</button>
+      </div>
     </div>
   </div></section>`;
 
@@ -670,18 +633,18 @@ function renderGrid(){
   grid.innerHTML = items.length ? items.map((c,i)=>`
     <button class="card${c.sold?' done':''}" type="button" onclick="location.hash='#detail/${encodeURIComponent(c.id)}'" aria-label="${esc(c.name)} 상세보기">
       <div class="ph${c.photos&&c.photos.length?' has-photo':''}" style="${phStyle(c,i)}">
-        ${c.sold?'<span class="badge-sold">판매완료</span>':stampSVG(c.id,'stamp')}
+        ${c.sold?'<span class="badge-sold">판매완료</span>':''}
         ${c.body&&c.body!=='기타'?`<span class="badge-cat">${esc(c.body)}</span>`:''}
-        ${c.photos&&c.photos.length?'':'<span>사진 준비중</span>'}
       </div>
       <div class="card-body">
         <div class="car-name">${esc(c.name)}</div>
         <div class="car-tags">
           ${c.brand&&c.brand!=='기타'?`<span class="t">${esc(c.brand)}</span>`:''}
           ${c.origin?`<span class="t">${esc(c.origin)}</span>`:''}
+          ${!c.sold?'<span class="t">성능점검완료</span>':''}
         </div>
         <div class="car-meta">${esc(c.year)}년식 · ${kmf(c.km)}km${c.fuel?' · '+esc(c.fuel):''}${c.color?' · '+esc(c.color):''}</div>
-        <div class="car-price">${priceLabel(c.price)}</div>
+        <div class="car-price tnum">${priceLabel(c.price)}</div>
       </div>
     </button>`).join('')
     : `<div class="empty" style="grid-column:1/-1">${state.tab==='sold'?'판매완료된 매물이 없습니다.':'조건에 맞는 매물이 없습니다.'}</div>`;
@@ -712,14 +675,14 @@ function renderDetail(id){
       </div>
       <div class="d-head">
         <div class="d-title">${esc(c.name)} ${c.sold?'<span class="badge-sold" style="position:static;display:inline-block">판매완료</span>':''}</div>
-        ${c.sold?'':stampSVG(c.id+'_d','d-stamp')}
       </div>
       <div class="d-tags">
         ${c.origin?`<span class="t">${esc(c.origin)}차</span>`:''}
         ${c.brand&&c.brand!=='기타'?`<span class="t">${esc(c.brand)}</span>`:''}
         ${c.body&&c.body!=='기타'?`<span class="t">${esc(c.body)}</span>`:''}
+        ${!c.sold?'<span class="t">성능점검완료</span>':''}
       </div>
-      <div class="d-price">${priceLabelPlain(c.price)}</div>
+      <div class="d-price tnum">${priceLabelPlain(c.price)}</div>
       <div class="spec">
         <div class="item"><small>연식</small><b>${esc(c.year)}년식</b></div>
         <div class="item"><small>주행거리</small><b>${kmf(c.km)} km</b></div>
@@ -731,8 +694,8 @@ function renderDetail(id){
       ${c.options?`<div class="desc" style="margin-bottom:10px"><b>옵션</b><br>${esc(c.options)}</div>`:''}
       <div class="desc">${esc(c.desc||'설명이 없습니다.')}</div>
       <div class="btn-row">
-        <a class="btn" style="flex:1;text-decoration:none" href="${telHref(SHOP.tel)}"><span aria-hidden="true">☎</span> ${c.sold?'비슷한 매물 전화 문의':'전화로 문의하기'}</a>
-        <button class="btn onpaper" style="flex:1;background:transparent" onclick="shareCar('${encodeURIComponent(c.id)}')">링크 복사·공유</button>
+        <a class="btn" style="flex:1;text-decoration:none" href="${telHref(SHOP.tel)}">${c.sold?'비슷한 매물 전화 문의':'전화로 문의하기'}</a>
+        <button class="btn onpaper" style="flex:1" onclick="shareCar('${encodeURIComponent(c.id)}')">링크 복사·공유</button>
       </div>
     </div>
   </div>`;
